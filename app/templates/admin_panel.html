@@ -156,7 +156,7 @@
                                                 <h5>{{ quiz.title }}</h5>
                                                 <p>{{ quiz.description }}</p>
                                                 <p>مدت زمان: {{ quiz.time_limit }} دقیقه</p>
-                                                <a href="#" class="btn btn-primary">مشاهده آزمون</a>
+                                                <a href="{{ url_for('start_quiz', quiz_id=quiz.id) }}" class="btn btn-primary">مشاهده آزمون</a>
                                             </li>
                                         {% endfor %}
                                     </ul>
