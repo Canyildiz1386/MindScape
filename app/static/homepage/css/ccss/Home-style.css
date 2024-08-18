@@ -1,0 +1,62 @@
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: var(--bs-modal-color);
+  pointer-events: auto;
+  background-color: #ffffffdb;
+  background-clip: padding-box;
+  border-radius: var(--bs-modal-border-radius);
+  outline: 0;
+  backdrop-filter: blur(5px);
+  border: none;
+}
+
+.sss {
+  border: 2px solid #7749f8;
+  box-shadow: 0px 0px 141px -40px #7749f8;
+}
+
+
+body {
+  background: url("../src/1687852679542.jfif") no-repeat;
+  background-size: cover;
+}
+
+.inputs input {
+  border: 1px solid #7749f8;
+  background-color: transparent;
+}
+
+.inputPlaceHolder::placeholder {
+  opacity: 1;
+  color: #7749f8;
+}
+
+.modal-title-text {
+  background-image: linear-gradient(to right, #bd3939, #7476b8, #01acdb);
+  color: transparent;
+  background-clip: text;
+}
+
+.modal-button {
+  background-color: #7749f8;
+  color: white;
+}
+
+.modal-button:hover {
+  box-shadow: 4px 2px 105px -40px #7749f8;
+  background-color: #8d67f5;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-header{
+  border: none;
+}
+
+
+.quize-cards-bg{
+  
+}

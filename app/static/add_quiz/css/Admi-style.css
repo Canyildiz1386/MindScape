@@ -1,0 +1,66 @@
+.input-col{
+  background-color: lightblue;
+  height: 100vh;
+}
+.input-col input{
+  border-radius: 15px;
+  height: 60px;
+}
+.input-col button{
+  background-color: mediumslateblue;
+}
+.newUserInput{  
+  height: 100vh;
+}
+.newUserInput input{
+  border: 3px solid mediumorchid;
+  
+}
+.newUserInput button{
+  background-color: mediumslateblue;
+}
+.forgetBnt{
+  color: mediumslateblue;
+  border: 3px solid mediumslateblue;
+}
+.send input{
+  width: 50px;
+  height: 50px;
+}
+.time{
+  color: mediumorchid;
+  font-size:small;
+  opacity: 50%;
+}
+.addTest{
+  background-color: midnightblue;
+}
+.addTest button{
+  background-color: blueviolet;
+  color: white;
+  font-size: x-large;
+}
+.addTest input{
+  border-radius: 10px;
+  height: 40px;
+
+}
+.addTest .dec{
+  height: 200px;
+}
+.addTest .category{
+  color: blueviolet;
+  border: 4px solid blueviolet;
+}
+.addTest .add{
+  width: 180px;
+}
+.qForm input{
+  border: 1px solid blueviolet;
+}
+.qForm .title{
+  font-size: 25px;
+}
+.qForm select{
+  border: 2px solid blueviolet;
+}

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bootstrap Site</title>
+    <!-- Style links -->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage/src/css/bootstrap.rtl.css') }}" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage/css/Home-style.css') }}" />
+
+    <!-- modal-css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage/css/ccss/Home-style.css') }}">
+    <!-- modal-css -->
+  </head>
+  <body>
+<!-- header start -->
+<header class="container-fluid bg-black">
+  <section class="container">
+    <!-- Navbar START -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <button
+        class="navbar-toggler border border-2"
+        data-toggle="collapse"
+        data-target="#myNav"
+      >
+        <i class="fas fa-bars text-white fa-lg"></i>
+      </button>
+      <div class="collapse navbar-collapse mt-4" id="myNav">
+        <ul class="navbar-nav list-unstyled my-3 my-md-0">
+          <li class="nav-item mx-2">
+            <a href="" class="nav-link active text-white">صفحه اصلی</a>
+          </li>
+          <li class="nav-item mx-2 dropdown">
+            <a
+              href=""
+              class="nav-link dropdown-toggle text-white"
+              data-toggle="dropdown"
+              >مقالات</a
+            >
+            <div class="dropdown-menu">
+              <a href="" class="dropdown-item"> مقاله یک</a>
+              <a href="" class="dropdown-item">مقاله دو</a>
+              <a href="" class="dropdown-item"> مقاله سه</a>
+            </div>
+          </li>
+          <li class="nav-item mx-2 dropdown">
+            <a
+              href=""
+              class="nav-link dropdown-toggle text-white"
+              data-toggle="dropdown"
+              >آزمون های ما</a
+            >
+            <div class="dropdown-menu">
+              <a href="" class="dropdown-item"> آزمون یک</a>
+              <a href="" class="dropdown-item">آزمون دو</a>
+              <a href="" class="dropdown-item"> آزمون سه</a>
+            </div>
+          </li>
+          <li class="nav-item mx-2">
+            <a href="" class="nav-link text-white">درباره ما</a>
+          </li>
+        </ul>
+      </div>
+
+      {% if username %}
+      <div class="text-white mt-1 mt-md-4">Hello, {{ username }}!</div>
+      <a href="{{ url_for('logout') }}" class="btn btn-outline-light ms-3 mt-1 mt-md-4">Logout</a>
+      {% else %}
+      <button
+        type="button"
+        class="btn mt-1 mt-md-4 reg-btn"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        ورود / ثبت نام
+      </button>
+      {% endif %}
+    </nav>
+  </section>
+  <!-- Navbar END -->
+
+
+
+      <!-- -----------------------banner-start-------------------- -->
+      <section class="container mt-4">
+        <div class="row pt-5">
+          <div class="col-12 col-lg-6 text-white">
+            <h1>روان افرا</h1>
+            <p class="banner-text">
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+              استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
+              در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
+              نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد،
+              کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان
+              جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای
+              طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان
+              فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری
+              موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد
+              نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل
+              دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+            <div class="row justify-content-between mt-4 mb-5">
+              <div class="col-auto">
+                <div class="input-group">
+                  <button class="btn search-btn rounded-circle text-white p-3">
+                    <i class="fa fa-search fa-xl" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col">
+                <input
+                  class="rounded-pill w-100 h-100 search-box form-control"
+                  type="text"
+                  placeholder="       جستجو..."
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 text-white">
+           
+                <img
+                  src="{{ url_for('static', filename='homepage/src/Art-Brain-Free-PNG-Image.png') }}"
+                  alt=""
+                  class="d-none d-lg-block"
+                  style="width: 36rem;"
+                />
+              </div>
+        </div>
+    
+      </section>
+    </header>
+    <!-- -----------------------banner-start-------------------- -->
+    <!-- --------------------------------------------Header END --------------------------------------- -->
+
+
+<!-- Test Carts START -->
+<main class="container text-center my-5 quize-cards-bg">
+  <h3 class="p-3 my-5">آزمون های ما</h3>
+  <section class="row">
+    {% if quizzes %}
+      {% for quiz in quizzes %}
+      <div class="col-lg-6 gy-4 d-flex position-relative justify-content-center">
+        <div class="card border-2 mr-5 w-75 gy-3">
+          <img
+            src="{{ url_for('static', filename='homepage/images/health-brain-illustration-icon-template-free-vector.jpg') }}"
+            class=""
+            alt="..."
+          />
+          <div class="card-body">
+            <h3 class="card-title p-4 mt-0 text-right">{{ quiz.title }}</h3>
+            <p class="card-text px-4 text-right">
+              {{ quiz.description }}
+            </p>
+            <a class="btn bg-primary text-white w-100" href="{{ url_for('start_quiz', quiz_id=quiz.id) }}" role="button">
+              شروع آزمون
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-center">No quizzes available at the moment.</p>
+    {% endif %}
+  </section>
+</main>
+<!-- Test Carts END -->
+
+
+
+        <!-- Description START -->
+    <main class="container-fluid description mt-4">
+      <div class="d-flex justify-content-around align-items-center p-3">
+        <div class="px-5 mt-5 text-white">
+          <h3>مزایا و معایب محصولات و تست های ما</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+            استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،
+            و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای
+            زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و
+            متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
+            رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد
+            کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
+            راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل
+            حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود
+            طراحی اساسا مورد استفاده قرار گیرد.
+          </p>
+        </div>
+        <img class="d-none d-md-block" src="{{ url_for('static', filename='homepage/images/Untitled-1.png') }}" alt="" />
+      </div>
+    </main>
+    <!-- Description END -->
+
+    <section class="container-fluid text-white bg-black">
+      <div class="row">
+          <div class="col-md-6 d-flex align-items-center justify-content-center"><img src="{{ url_for('static', filename='homepage/src/Untit2.png') }}" alt="" style="width: 30rem;" class="head-brain d-none d-lg-block"/></div>
+          <div class="col-12 col-lg-6">
+            <div class="row">
+              <div class="col m-5">
+                <p class="fs-1">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده.</p>
+                  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col m-5">
+                <p>برای ادامه ثبت نام کنید...</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col m-5 ">
+                <button class="btn reg-btn w-75"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">ثبت نام</button>
+              </div>
+            </div>
+          </div>
+      </div>
+  </section>
+
+    <!-- Abute START -->
+    <main class="container mt-4">
+      <section class="row p-3 d-flex align-items-center">
+        <div class="col-md-8">
+          <h3>با ما آشنا شوید</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+            در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را
+            می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی
+            الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این
+            صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و
+            شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای
+            اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد
+            استفاده قرار گیرد.
+          </p>
+        </div>
+        <div class="col-12 col-md-4">
+          <img src="{{ url_for('static', filename='homepage/images/Untitled-3.png') }}" alt="" />
+        </div>
+      </section>
+
+      <section class="row p-3 d-flex align-items-center">
+        <div class=" col-md-4">
+          <img src="{{ url_for('static', filename='homepage/images/Untitled-21.png') }}" alt="" class="d-none d-lg-block"/>
+        </div>
+        <div class="col-md-8">
+          <h3>عنوان متن</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+            در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را
+            می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی
+            الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این
+            صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و
+            شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای
+            اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد
+            استفاده قرار گیرد.
+          </p>
+        </div>
+      </section>
+
+      <section class="row p-3 d-flex align-items-center">
+        <div class="col-md-8">
+          <h3>tعنوان متن</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+            در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را
+            می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی
+            الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این
+            صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و
+            شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای
+            اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد
+            استفاده قرار گیرد.
+          </p>
+        </div>
+        <div class=" col-12 col-md-4">
+          <img src="{{ url_for('static', filename='homepage/images/Untitled-31.png') }}" alt="" />
+        </div>
+      </section>
+
+      <section class="row p-3 d-flex align-items-center">
+        <div class="col-md-4">
+          <img src="{{ url_for('static', filename='homepage/images/Untitled-31.png') }}" alt="" class="d-none d-lg-block"/>
+        </div>
+        <div class="col-md-8">
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+          </p>
+        </div>
+      </section>
+    </main>
+    <!-- Abute END -->
+
+
+
+
+
+    <!-- Footer START -->
+    <footer class="container-fluid">
+      <div class=" row text-white d-flex justify-content-around footer">
+      <div class="col-md-4 w-auto p-3 pt-5">
+        <h4>
+          <i class="fa-sharp-duotone fa-solid fa-link me-1" style="font-size: 25px;"></i>
+          دسترسی سریع
+        </h4>
+        <ul class="list-unstyled">
+          <li class="mt-3 p-2">آزمون ها</li>
+          <li class="mt-3 p-2">مقالات و مجلات</li>
+          <li class="mt-3 p-2">درباره ما</li>
+        </ul>
+      </div>
+
+      <div class="col-md-4 w-auto mr-5 p-3 pt-5">
+        <h4>
+          <i class="fa-sharp fa-solid fa-list-check fa-lg me-1"></i>
+          آزمون ها
+        </h4>
+        <ul class="list-unstyled">
+          <li class="mt-3 p-2">آزمون شماره یک</li>
+          <li class="mt-3 پ-2">آزمون شماره دو</li>
+          <li class="mt-3 پ-2">آزمون شماره سه</li>
+        </ul>
+      </div>
+
+      <div class="col-md4 pt-5 w-auto">
+        <h4 class="p-2">
+          <i class="lni lni-popup fa-lg me-1"></i>
+          ارتباط با ما
+        </h4>
+        <p class="p-2 mt-4">
+          <i class="fas fa-envelope"></i>
+          emailsite@com
+        </p>
+        <p class="p-2 mt-4">
+          <i class="fa fa-phone" aria-hidden="true"></i>
+          09193456890
+        </p>
+        <div class="d-flex justify-content-around p-2 mt-2">
+          <i class="fab fa-instagram fa-2xl" aria-hidden="true"></i>
+          <i class="fab fa-telegram fa-2xl" aria-hidden="true"></i>
+          <i class="fab fa-whatsapp fa-2xl" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    </footer>
+
+
+    
+
+<!-- Modal -->
+<div
+  class="modal fade modal-lg"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content sss">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-4 offset-4 text-center mb-5">
+            <img
+              src="{{ url_for('static', filename='homepage/src/brain-logo-085FB58CDA-seeklogo.com.png') }}"
+              class="text-center"
+              style="width: 170px;"
+            />
+          </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="row mb-4">
+          <div class="col-12 col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 inputs">
+            <div class="row">
+              <div class="col-4 offset-4">
+                <h1
+                  class="modal-title fs-5 text-center modal-title-text"
+                  id="staticBackdropLabel"
+                >
+                  ثبت نام
+                </h1>
+              </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('signup') }}">
+              <input
+                type="text"
+                class="form-control mt-2 inputPlaceHolder"
+                placeholder="نام کاربری"
+                name="username"
+                id="username"
+                required
+              />
+              <input
+                type="password"
+                class="form-control mt-2 inputPlaceHolder"
+                placeholder="رمز عبور"
+                name="password"
+                id="password"
+                required
+              />
+              <input
+                type="password"
+                class="form-control mt-2 inputPlaceHolder"
+                placeholder="تکرار رمز عبور"
+                name="verify_password"
+                id="verify_password"
+                required
+              />
+              <button
+                type="submit"
+                class="btn w-100 text-white mt-5 modal-button"
+              >
+                ثبت نام
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <hr class="my-4">
+
+        <!-- Login Form -->
+        <div class="row">
+          <div class="col-12 col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 inputs">
+            <div class="row">
+              <div class="col-4 offset-4">
+                <h1
+                  class="modal-title fs-5 text-center modal-title-text"
+                  id="staticBackdropLabel"
+                >
+                  ورود
+                </h1>
+              </div>
+            </div>
+
+            <form method="POST" action="{{ url_for('login') }}">
+              <input
+                type="text"
+                class="form-control mt-2 inputPlaceHolder"
+                placeholder="نام کاربری"
+                name="username"
+                id="login_username"
+                required
+              />
+              <input
+                type="password"
+                class="form-control mt-2 inputPlaceHolder"
+                placeholder="رمز عبور"
+                name="password"
+                id="login_password"
+                required
+              />
+              <button
+                type="submit"
+                class="btn w-100 text-white mt-5 modal-button"
+              >
+                ورود
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    
+    <!-- Footer END -->
+    <!-- Optional JavaScript -->
+    <!--Popper.js, then Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='homepage/src/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+
+  </body>
+</html>
