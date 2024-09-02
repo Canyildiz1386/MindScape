@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename='mind_9548035.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>آزمون ها</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/bootstrap.rtl.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminquiz.css') }}" />
+    <style>
+      @font-face {
+        font-family: "Anjomanweb VF";
+        src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
+            url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
+        font-display: fallback;
+      }
+
+      * {
+        font-family: "Anjomanweb VF";
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h2>روان افرا</h2>
+      <ul>
+        <li>
+          <a href="{{ url_for('admin_panel') }}">
+            <i class="fa fa-home"></i>
+            <p class="d-inline ms-2">خانه</p>
+          </a>
+        </li>
+        <li class="current_page">
+          <a href="{{ url_for('admin_quiz') }}">
+            <i class="fa-solid fa-chart-simple"></i>
+            <p class="d-inline ms-2">آزمون ها</p>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('logout') }}">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <p class="d-inline ms-2">خروج از حساب</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <header>
+        <h1>نتایج آزمون</h1>
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      </header>
+      <br />
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-6 col-lg-4 gy-3">
+            <div class="card blur text-white">
+              <div class="card-title m-3 fs-3 fw-bold">عنوان آزمون</div>
+              <div class="card-body text-start">
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="opacity-50">دسته بندی:</span>
+                      <span class="ms-3 fs-5">کودکان</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="opacity-50">تعداد سوالات:</span>
+                      <span class="ms-3 fs-5">50</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="opacity-50">زمان تست:</span>
+                      <span class="ms-3 fs-5">20</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="opacity-50">نمره سوالات:</span>
+                      <span class="ms-3 fs-5">2</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      <span class="opacity-50">نمره کل:</span>
+                      <span class="ms-3 fs-5">100</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <span class="opacity-50">توضیحات:</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Dignissimos autem deleniti voluptate cum accusamus eaque
+                      consectetur minus necessitatibus repudiandae consequatur?
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <div class="d-flex">
+                    <div class="">
+                      <div class="btn card-footer-btn btn-outline-info m-1">
+                        غیر فعال سازی
+                      </div>
+                    </div>
+                    <div class="">
+                      <div
+                        class="btn card-footer-btn text-end btn-outline-info m-1"
+                      >
+                        حذف
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="btn card-footer-btn text-end btn-info m-1">
+                        <a href="{{ url_for('admin_panel') }}">دیدن نتایج</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Repeat similar structure for other quizzes -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.classList.toggle("open");
+      }
+    </script>
+  </body>
+</html>

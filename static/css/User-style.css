@@ -1,0 +1,173 @@
+body{
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+   
+    direction: rtl;
+}
+
+nav ul{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    right: 0;
+   background-color: #132438;
+    
+}
+
+nav ul li{
+    list-style: none;
+    margin-top: 25px;
+    margin-right: 20px;
+    
+}
+
+nav ul li a{
+    display: block;
+    text-decoration: none;
+    color: #0D69A0;
+    font-size: 22px;
+}
+
+nav ul li a span{
+ font-size: 18px;
+}
+
+nav ul li a p{
+ font-size: 18px;
+ display: inline;
+ margin-right: 10px;
+}
+
+
+.wrapper{
+    margin-right: 200px;
+}
+
+nav ul li a:hover{
+    color: aliceblue;
+}
+
+.container h3{
+    color: rgb(0, 0, 0);
+    margin: 16px;
+}
+
+.number-of-quizes-box{
+     background-color: #0D69A0;
+     color: aliceblue;
+     font-size: 21px;
+     padding: 10px;
+     display: flex;
+     justify-content: center;
+}
+
+.number-of-quizes{
+    color: black;
+    background-color: aliceblue;
+    display: inline-block;
+    width: 10%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.number-of-quizes-content{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.number-of-quizes-content p{
+    margin: 0;
+}
+
+@media screen and (max-width:575px) {
+
+    .wrapper{
+        margin-right: 50px;
+    }
+    
+    nav ul li a{
+        font-size: 22px;
+    }
+
+    nav ul li{
+        list-style: none;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        margin-top: 25px;
+        margin-right: 0px;
+    }
+
+    nav ul li a span,nav ul li a p{
+        display: none;
+       }
+       
+  
+    nav ul{
+        width: 50px;
+    }
+
+    .number-of-quizes-box{
+        font-size: 12px;
+   }
+    
+  }
+
+
+
+
+  .quiz-btn{
+    background-color:aliceblue;
+    color: #0D69A0;
+    transition: 0.5s;
+  }
+  .quiz-btn:hover{
+ background-color: #132438;
+ color: aliceblue;
+ font-weight: bolder;
+ transition: 0.5s;
+  }
+  .profile{
+    margin-bottom: 30%;
+    color: #ffffff;
+    cursor: non;
+    font-size: 31px;
+  }
+  .profile span{
+    font-size: 20px;
+  }
+  
+  #current_page a{
+    color: aliceblue;
+  }
+
+  #current_page a:hover{
+    color:#0D69A0;
+  }
+
+.card{
+   background-color: #0D69A0;
+    color: white;
+   
+    transition: 0.25s;
+}
+.card:hover{
+     box-shadow: 0px 10px 30px 5px #213b5a;
+     transition: 0.25s;
+}
+.titles{
+    opacity: 50%;
+}
+.h-101{
+    width: 100vw;
+    height: 100vh;
+}

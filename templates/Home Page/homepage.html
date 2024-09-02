@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename='src/mind_9548035.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>روان افرا</title>
+    <!-- Style links -->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/bootstrap.rtl.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Home-style.css') }}" />
+
+    <style>
+      @font-face {
+        font-family: "Anjomanweb VF";
+        src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
+          url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
+        font-display: fallback;
+      }
+      * {
+        font-family: "Anjomanweb VF";
+      }
+    </style>
+  </head>
+  <body>
+    <!-- header start -->
+    <header class="container-fluid bg-black">
+      <section class="container">
+        <!-- Navbar START -->
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <button class="navbar-toggler border border-2" data-toggle="collapse" data-target="#myNav">
+            <i class="fas fa-bars text-white fa-lg"></i>
+          </button>
+          <div class="collapse navbar-collapse mt-4" id="myNav">
+            <ul class="navbar-nav list-unstyled my-3 my-md-0">
+              <li class="nav-item mx-2">
+                <a href="" class="nav-link active text-white">صفحه اصلی</a>
+              </li>
+              <li class="nav-item mx-2 dropdown">
+                <a href="" class="nav-link dropdown-toggle text-white" data-toggle="dropdown">دسترسی سریع</a>
+                <div class="dropdown-menu">
+                  <a href="#quizes" class="dropdown-item"> آزمون ها</a>
+                  <a href="#abuat" class="dropdown-item"> درباره ما</a>
+                  <a href="#contact" class="dropdown-item">ارتباط با ما</a>
+                </div>
+              </li>
+              <li class="nav-item mx-2 dropdown">
+                <a href="" class="nav-link dropdown-toggle text-white" data-toggle="dropdown">آزمون های ما</a>
+                <div class="dropdown-menu">
+                  <a href="" class="dropdown-item"> آزمون یک</a>
+                  <a href="" class="dropdown-item">آزمون دو</a>
+                  <a href="" class="dropdown-item"> آزمون سه</a>
+                </div>
+              </li>
+              <li class="nav-item mx-2">
+                <a href="" class="nav-link text-white">درباره ما</a>
+              </li>
+            </ul>
+          </div>
+          <button type="button" class="btn mt-1 mt-md-4 reg-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            ورود / ثبت نام
+          </button>
+        </nav>
+      </section>
+      <!-- Navbar END -->
+
+      <!-- -----------------------banner-start-------------------- -->
+      <section class="container mt-4">
+        <div class="row pt-5">
+          <div class="col-12 col-lg-6 text-white">
+            <h1><span class="site-name">روان افرا</span></h1>
+            <p class="banner-text">
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+              استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
+              در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
+              نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد،
+              کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان
+              جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای
+              طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان
+              فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری
+              موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد
+              نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل
+              دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+            <div class="row mt-4 mb-5">
+              <div class="col-auto">
+                <div class="input-group">
+                  <button class="btn search-btn rounded-circle text-white p-2">
+                    <i class="fa fa-search fa-xl" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col">
+                <input class="rounded-pill w-100 h-100 search-box form-control ps-5" type="text" placeholder="جستجو..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 text-white">
+            <img src="{{ url_for('static', filename='src/Art-Brain-Free-PNG-Image.png') }}" alt="" class="d-none d-lg-block" style="width: 100%" />
+          </div>
+        </div>
+      </section>
+    </header>
+    <!-- -----------------------banner-start-------------------- -->
+    <!-- --------------------------------------------Header END --------------------------------------- -->
+
+    <!-------------------------------------------- section-1-Cards---------------------------------------------- -->
+    <div id="quizes" class="container mb-5 mt-5">
+      <h2 class="text-center m-4">SITE SERVICES NAME</h2>
+
+      <div class="row text-white">
+        <!-- -------------------------------the big card-------------------------------- -->
+        <div class="col-12 col-md-4 gy-3">
+          <div class="demo-wrap card services-card1 h-100 rounded-4">
+            <div class="card-body demo-content">
+              <h2 class="card-title mb-5">لیست آزمون های ما</h2>
+              <div class="card-text">
+                <ul class="list">
+                  <li>آزمون 1</li>
+                  <li>آزمون 2</li>
+                  <li>آزمون 3</li>
+                  <li>آزمون 4</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- -------------------------------the small cards-------------------------------- -->
+
+        <div class="col-12 col-md-8">
+          <div class="row">
+            <div class="col-12 col-sm-6 gy-3">
+              <div class="demo-wrap card services-card2 rounded-4">
+                <div class="card-body demo-content">
+                  <h2 class="card-title">title</h2>
+                  <div class="card-text">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Officiis autem, ullam possimus quidem optio vel.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col gy-3">
+              <div class="card services-card3 rounded-4 demo-wrap">
+                <div class="card-body demo-content">
+                  <h2 class="card-title">title</h2>
+                  <div class="card-text">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Officiis autem, ullam possimus quidem optio vel.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col gy-3">
+              <div class="card services-card4 rounded-4 demo-wrap">
+                <div class="card-body demo-content">
+                  <h2 class="card-title">title</h2>
+                  <div class="card-text">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Officiis autem, ullam possimus quidem optio vel.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col gy-3">
+              <div class="card services-card5 rounded-4 demo-wrap">
+                <div class="card-body demo-content">
+                  <h2 class="card-title">title</h2>
+                  <div class="card-text">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Officiis autem, ullam possimus quidem optio vel.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-------------------------------------------- section-1-Cards-END---------------------------------------------- -->
+
+    <!-- Test Carts START -->
+    <div class="container text-center my-5 quize-cards-bg">
+      <h3 class="p-3 my-5">آزمون های ما</h3>
+      <section class="row">
+        <div class="col-lg-6 gy-4 d-flex position-relative justify-content-center">
+          <div class="card border-2 mr-5 w-75 gy-3">
+            <img src="{{ url_for('static', filename='images/health-brain-illustration-icon-template-free-vector.jpg') }}" class="" alt="..." />
+            <div class="card-body">
+              <h3 class="card-title p-4 mt-0 text-right">عنوان آزمون</h3>
+              <p class="card-text px-4 text-right">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله
+                در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد
+                نیاز
+              </p>
+              <button class="btn bg-primary text-white w-100" href="#" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                ورود
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 gy-4 d-flex position-relative justify-content-center">
+          <div class="card ml-5 w-75">
+            <img src="{{ url_for('static', filename='images/health-brain-illustration-icon-template-free-vector.jpg') }}" class="" alt="..." />
+            <div class="card-body">
+              <h3 class="card-title p-4 mt-0 text-right">عنوان آزمون</h3>
+              <p class="card-text px-4 text-right">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله
+                در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد
+                نیاز
+              </p>
+              <button class="btn bg-primary text-white w-100" href="#" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                ورود
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="row">
+        <div class="col-lg-6 gy-4 d-flex position-relative justify-content-center">
+          <div class="card mr-5 w-75">
+            <img src="{{ url_for('static', filename='images/health-brain-illustration-icon-template-free-vector.jpg') }}" class="" alt="..." />
+            <div class="card-body">
+              <h3 class="card-title p-4 mt-0 text-right">عنوان آزمون</h3>
+              <p class="card-text px-4 text-right">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله
+                در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد
+                نیاز
+              </p>
+              <button class="btn bg-primary text-white w-100" href="#" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                ورود
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 gy-4 d-flex position-relative justify-content-center">
+          <div class="card ml-5 w-75">
+            <img src="{{ url_for('static', filename='images/health-brain-illustration-icon-template-free-vector.jpg') }}" class="" alt="..." />
+            <div class="card-body">
+              <h3 class="card-title p-4 mt-0 text-right">عنوان آزمون</h3>
+              <p class="card-text px-4 text-right">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله
+                در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد
+                نیاز
+              </p>
+              <button class="btn bg-primary text-white w-100" href="#" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                ورود
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- Test Carts END -->
+
+    <!-- Description START -->
+    <div class="container-fluid description mt-4">
+      <div class="d-flex justify-content-around align-items-center p-3">
+        <div class="px-1 mt-5 text-white">
+          <h3>مزایا و معایب محصولات و تست های ما</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+            استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،
+            و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای
+            زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و
+            متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
+            رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد
+            کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
+            راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل
+            حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود
+            طراحی اساسا مورد استفاده قرار گیرد.
+          </p>
+        </div>
+        <img class="d-none d-md-block purpleBrain" src="{{ url_for('static', filename='images/Untitled-1.png') }}" alt="" />
+      </div>
+    </div>
+    <!-- Description END -->
+
+    <section class="container-fluid text-white bg-black">
+      <div class="row">
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+          <img src="{{ url_for('static', filename='src/Untit2.png') }}" alt="" style="width: 75%" class="head-brain d-none d-lg-block" />
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="row">
+            <div class="col my-5 mx-1 text-center">
+              <p class="fs-1">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+                استفاده.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col m-5 text-center">
+              <p>برای ادامه ثبت نام کنید...</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col m-5 text-center">
+              <button class="btn reg-btn w-75" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                ثبت نام
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Abute START -->
+    <div class="container mt-4" id="abuat">
+      <section class="row p-3 d-flex align-items-center">
+        <div class="col-12 col-md-8">
+          <h3>با ما آشنا شوید</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+            در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را
+            می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی
+            الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این
+            صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و
+            شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای
+            اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد
+            استفاده قرار گیرد.
+          </p>
+        </div>
+        <div class="col-12 col-md-4">
+          <img class="brain" src="{{ url_for('static', filename='images/Untitled-3.png') }}" alt="" />
+        </div>
+      </section>
+
+      <section class="row p-3 d-flex align-items-center">
+        <div class="col-md-4">
+          <img src="{{ url_for('static', filename='images/Untitled-21.png') }}" alt="" class="d-none d-lg-block brain" />
+        </div>
+        <div class="col-md-8">
+          <h3>عنوان متن</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+            در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را
+            می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی
+            الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این
+            صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و
+            شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای
+            اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد
+            استفاده قرار گیرد.
+          </p>
+        </div>
+      </section>
+
+      <section class="row p-3 d-flex align-items-center">
+        <div class="col-12 col-md-8">
+          <h3>عنوان متن</h3>
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+          </p>
+        </div>
+        <div class="col-12 col-md-4">
+          <img class="brain" src="{{ url_for('static', filename='images/Untitled-31.png') }}" alt="" />
+        </div>
+      </section>
+
+      <section class="row p-3 d-flex align-items-center">
+        <!-- <div class="col-md-4">
+          <img src="{{ url_for('static', filename='images/Untitled-31.png') }}" alt="" class="d-none d-lg-block"/>
+        </div> -->
+        <div class="col-md-8">
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
+            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
+            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
+          </p>
+        </div>
+      </section>
+    </div>
+    <!-- Abute END -->
+
+    <!-- Footer START -->
+    <footer class="container-fluid">
+      <div class="row text-white d-flex justify-content-around footer">
+        <div class="col-md-4 w-auto p-3 pt-5">
+          <h4 class="align-items-center d-flex">
+            <i class="fa-sharp-duotone fa-solid fa-link me-1 pe-1" style="font-size: 25px"></i>
+            دسترسی سریع
+          </h4>
+          <ul class="list-unstyled">
+            <li class="mt-3 p-2">
+              <a href="#quizes" class="dropdown-item"> آزمون ها</a>
+            </li>
+            <li class="mt-3 p-2">مقالات و مجلات</li>
+            <li class="mt-3 p-2">
+              <a href="#abuat" class="dropdown-item"> درباره ما</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 w-auto mr-5 p-3 pt-5">
+          <h4 class="align-items-center d-flex">
+            <i class="fa-sharp fa-solid fa-list-check fa-lg me-1 pe-2"></i>
+            آزمون ها
+          </h4>
+          <ul class="list-unstyled">
+            <li class="mt-3 p-2">آزمون شماره یک</li>
+            <li class="mt-3 p-2">آزمون شماره دو</li>
+            <li class="mt-3 p-2">آزمون شماره سه</li>
+          </ul>
+        </div>
+
+        <div class="col-md4 pt-5 w-auto" id="contact">
+          <h4 class="align-items-center d-flex">
+            <i class="lni lni-popup fa-lg me-1 pe-2"></i>
+            ارتباط با ما
+          </h4>
+          <p class="p-2 mt-4">
+            <i class="fas fa-envelope"></i>
+            emailsite@com
+          </p>
+          <p class="p-2 mt-4">
+            <i class="fa fa-phone" aria-hidden="true"></i>
+            09193456890
+          </p>
+          <div class="d-flex justify-content-around p-2 mt-2">
+            <i class="fab fa-instagram fa-2xl" aria-hidden="true"></i>
+            <i class="fab fa-telegram fa-2xl" aria-hidden="true"></i>
+            <i class="fab fa-whatsapp fa-2xl" aria-hidden="true"></i>
+            <br /><br /><br /><br /><br /><br />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content sss">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col text-center mb-3">
+                <img src="{{ url_for('static', filename='src/brain-logo-085FB58CDA-seeklogo.com.png') }}" class="text-center" style="width: 20%" />
+              </div>
+            </div>
+            <!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <div class="container mt-3">
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endwith %}
+
+            <div class="row">
+              <div class="col-12 col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 inputs">
+
+                
+                <form action="{{ url_for('signup') }}" method="POST" class="signin hidden">
+                  <div class="row">
+                    <div class="col-4 offset-4">
+                      <h1 class="modal-title fs-5 text-center modal-title-text staticBackdropLabel">
+                        ثبت نام
+                      </h1>
+                    </div>
+                  </div>
+                  <input type="text" class="form-control mt-2 inputPlaceHolder" placeholder="نام کاربری" name="username" id="signupUsername" required/>
+                  <input type="text" class="form-control mt-2 inputPlaceHolder" placeholder="رمز عبور" name="password" id="signupPassword" required/>
+                  <input type="text" class="form-control mt-2 inputPlaceHolder" placeholder="تکرار رمز عبور" name="confirm_password" id="confirmPassword" required/>
+                  <button type="submit" class="btn w-100 text-white mt-2 modal-button">
+                    ثبت نام
+                  </button>
+                  
+                  <br /><br />
+                  <div class="row">
+                    <div class="col text-center">
+                      <a onclick="GoToLogin()" class="modal-link">حساب کاربری دارید؟ ورود کنید</a>
+                    </div>
+                  </div>
+                </form>
+                <form method="POST" action="{{ url_for('login') }}" id="loginform">
+                  <div class="row">
+                    <div class="col-4 offset-4">
+                      <h1 class="modal-title fs-5 text-center modal-title-text staticBackdropLabel">
+                        ورود
+                      </h1>
+                    </div>
+                  </div>
+
+                  <input type="text" class="form-control mt-2 inputPlaceHolder" placeholder="نام کاربری" name="username" id="loginUsername" required/>
+                  <input type="text" class="form-control mt-2 inputPlaceHolder" placeholder="رمز عبور" name="password" id="loginPassword" required/>
+
+                  <button type="submit" class="btn w-100 text-white mt-5 modal-button">
+                    ورود
+                  </button>
+                  <br /><br />
+                  <div class="row">
+                    <div class="col text-center">
+                      <a onclick="GoToSignin()" class="modal-link">حساب کاربری ندارید؟ ثبت نام کنید</a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer END -->
+    <!-- Optional JavaScript -->
+    <!--Popper.js, then Bootstrap JS -->    <script>
+      window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('open_modal')) {
+          const myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+          myModal.show();
+        }
+      };
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='src/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <!-- js -->
+    <script src="{{ url_for('static', filename='js/file.js') }}"></script>
+  </body>
+</html>

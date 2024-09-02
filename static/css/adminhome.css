@@ -1,0 +1,244 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    direction: rtl; /* Ensure text and layout alignments are RTL */
+}
+
+.z-100{
+    z-index: 1px;
+}
+.sidebar {
+    z-index: 100;
+    width: 250px;
+    background-color: #132438;
+    color: #ecf0f1;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    right: 0; /* Move sidebar to the right */
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+.main-content {
+    margin-right: 250px; /* Adjust margin for RTL */
+    padding: 20px;
+    width: 100%;
+    overflow-y: auto;
+    transition:  0.3s ease;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #2c3e50;
+}
+
+.current_page {
+    background-color: #324e6e;
+    border-radius: 8px;
+  }
+
+
+
+.card-contant{
+    width: 90%;
+    height: 90%;
+}
+
+.cards {
+   
+    padding: 10px;
+    background-color: #0D69A0;
+    color: #fff;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(100%); /* Hide sidebar on smaller screens */
+    }
+
+    .main-content {
+        margin-right: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar.open {
+        transform: translateX(0); /* Show sidebar on smaller screens */
+    }
+}
+.sidebar li:hover{
+    background-color: #324e6e;
+    border-radius: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@font-face {
+    font-family: iran;
+    src: url(./src/iran.ttf);
+}
+
+body{
+   
+    background: url("./src/abstract_background_of_the_brain_of_technology_inside_which_there.jpg") no-repeat;
+    background-size: cover;
+    background-position: fixed;
+}
+* { font-family: iran;}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.main {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+}
+
+
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.1rem;
+}
+
+.toggle-btn i {
+    font-size: 2rem;
+    color: #FFF;
+}
+
+
+
+.blur{
+   background-color: #0D69A0;
+   
+    border-radius: 18px;
+    box-shadow: 0px 8px 9px 0px #00000057;
+}
+
+/* p{
+    font-size: 18px;
+    font-weight: 100;
+} */
+
+.cards-btns{
+    color:aliceblue;
+    border: 3px solid aliceblue;
+    font-weight:900;
+    font-size: 15px;
+}
+
+.cards-btns:hover{
+    color:aliceblue;
+    background-color: #7749f8;
+}
+
+li a{
+    display: block;
+}
+
+.card-icon{
+    font-size: 38px;
+}
+
+.card-p{
+    font-size: 25px;
+    
+}
+.card-description{
+    font-size: 20px;
+    
+}
+
+.w-60{
+    width: 65%;
+}
+ul{
+    padding-right: 0px;
+}
+
+.style-none{
+    text-decoration: none;
+}
+.go button:hover{
+color: aliceblue;
+background-color: #132438;
+}

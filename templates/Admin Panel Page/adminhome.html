@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename='mind_9548035.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/bootstrap.rtl.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminhome.css') }}" />
+    <style>
+       @font-face {
+        font-family: "Anjomanweb VF";
+        src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
+            url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
+        font-display: fallback;
+      }
+
+      * {
+        font-family:  "Anjomanweb VF";
+      }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>روان افرا</h2>
+        <ul>
+          <li  class="current_page">
+            <a href="#dashboard"><i class="fa fa-home"></i><p class="d-inline m-2">خانه</p></a>
+          </li>
+          <li>
+            <a href="{{ url_for('admin_quiz') }}"><i class="fa-solid fa-chart-simple"></i><p class="d-inline m-2">آزمون ها</p></a>
+          </li>
+          <li><a href="{{ url_for('logout') }}"> <i class="fa-solid fa-arrow-right-from-bracket"></i><p class="d-inline m-2">خروج از حساب</p> </a></li>
+        </ul>
+      </div>
+      <div class="main-content">
+        <header>
+          <h1> داشبورد</h1>
+          <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        </header>
+        <br />
+        <div class="container">
+          <div class="row">
+              <div class="col-12 col-md-6 col-lg-4 gy-5">
+                  <div class="row justify-content-center ">
+                      <div class="col-8 w-60">
+                          <div class=" blur text-white">
+                              <div class=" text-start">
+                                  <div class="row">
+                                      <div class="col text-center mt-2">
+                                          <i class="lni lni-users card-icon"></i>
+                                      </div>
+                                      <div class="col text-center mt-3">
+                                          <p class="card-p">50</p>
+                                      </div>
+                                  </div>
+                                  <div class="row text-center">
+                                      <div class="col ">
+                                          <p class="card-description">تعداد ثبت نامی ها</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class=" blur text-white mt-4">
+                              <div class=" text-start">
+                                  <div class="row ">
+                                      <div class="col text-center mt-2">
+                                          <i class="lni lni-hourglass card-icon"></i>
+                                      </div>
+                                      <div class="col text-center mt-2">
+                                          <p class="card-p">6</p>
+                                      </div>
+                                  </div>
+                                  <div class="row text-center">
+                                      <div class="col mt-2">
+                                          <p class="card-description">تعداد آزمون های فعال</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4 gy-5">
+                  <div class="row justify-content-center ">
+                      <div class="col-8 w-5">
+                          <div class=" blur text-white">
+                              <div class=" text-start">
+                                  <div class="row ">
+                                      <div class="col text-center mt-3">
+                                          <i class="lni lni-question-circle card-icon"></i>
+                                      </div>
+                                      <div class="col text-center mt-3">
+                                          <p class="card-p">250</p>
+                                      </div>
+                                  </div>
+                                  <div class="row text-center">
+                                      <div class="col ">
+                                          <p class="card-description">تعداد کل سوالات</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class=" blur text-white mt-4">
+                              <div class=" text-start">
+                                  <div class="row ">
+                                      <div class="col text-center mt-3">
+                                          <i class="lni lni-notepad card-icon"></i>
+                                      </div>
+                                      <div class="col text-center mt-3">
+                                          <p class="card-p">456</p>
+                                      </div>
+                                  </div>
+                                  <div class="row ">
+                                      <div class="col text-center align-items-center ">
+                                          <p class="card-description">آزمون های تکمیل شده</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4 gy-5">
+                  <div class="row justify-content-center ">
+                      <div class="col-8 w-5">
+                          <div class=" blur text-white">
+                              <div class=" text-start">
+                                  <div class="row ">
+                                      <div class="col text-center mt-3">
+                                          <i class="lni lni-question-circle card-icon"></i>
+                                      </div>
+                                      <div class="col text-center mt-3">
+                                          <p class="card-p">250</p>
+                                      </div>
+                                  </div>
+                                  <div class="row text-center">
+                                      <div class="col ">
+                                          <p class="card-description">تعداد کل سوالات</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class=" blur text-white mt-4">
+                              <div class=" text-start">
+                                  <div class="row ">
+                                      <div class="col text-center mt-3">
+                                          <i class="lni lni-notepad card-icon"></i>
+                                      </div>
+                                      <div class="col text-center mt-3">
+                                          <p class="card-p">456</p>
+                                      </div>
+                                  </div>
+                                  <div class="row ">
+                                      <div class="col text-center align-items-center ">
+                                          <p class="card-description">آزمون های تکمیل شده</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12 col-md-6 col-lg-4 g-5">
+                      <div class="card blur text-white z-100">
+                          <div class="card-title m-3 fs-3 fw-bold">عنوان آزمون</div>
+                          <div class="card-body text-start">
+                              <div class="row">
+                                  <div class="col">
+                                      <p>دسته بندی:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <p>تعداد سوالات:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <p>تعداد شرکت کنندگان:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <a href="{{ url_for('static', filename='users/result.html') }}" class="go"><button class="btn cards-btns w-100">مشاهده نتایج</button></a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-4 g-5 z-100">
+                      <div class="card blur text-white">
+                          <div class="card-title m-3 fs-3 fw-bold">عنوان آزمون</div>
+                          <div class="card-body text-start">
+                              <div class="row">
+                                  <div class="col">
+                                      <p>دسته بندی:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <p>تعداد سوالات:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <p>تعداد شرکت کنندگان:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <a href="{{ url_for('static', filename='users/result.html') }}" class="go"><button class="btn cards-btns w-100">مشاهده نتایج</button></a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-4 g-5">
+                      <div class="card blur text-white">
+                          <div class="card-title m-3 fs-3 fw-bold">عنوان آزمون</div>
+                          <div class="card-body text-start">
+                              <div class="row">
+                                  <div class="col">
+                                      <p>دسته بندی:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <p>تعداد سوالات:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <p>تعداد شرکت کنندگان:</p>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <a href="{{ url_for('static', filename='users/result.html') }}" class="go"><button class="btn cards-btns w-100">مشاهده نتایج</button></a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector(".sidebar");
+            sidebar.classList.toggle("open");
+        }
+    </script>
+</body>
+</html>

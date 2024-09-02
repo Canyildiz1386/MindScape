@@ -1,0 +1,19 @@
+.bg-primary{
+    background-color: rgb(138, 44, 226) !important;
+}
+
+.selecting p{
+    margin: 0%;
+    padding: 5px;
+
+}
+.selecting{
+    padding: 5px;
+    background-color: rgba(116, 118, 184, 0.2);
+    border-radius:12px ;
+    color:blueviolet;
+}
+.selecting:hover{
+    background-color: rgb(138, 44, 226) !important;
+    color: white !important;;
+}
