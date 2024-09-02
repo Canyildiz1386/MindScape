@@ -91,7 +91,7 @@ def login():
 def logout():
     logout_user()
     flash("👋 شما با موفقیت خارج شدید. تا دیدار بعدی! 😊", "info")
-    return redirect(url_for("home"))
+    return redirect(url_for("home", open_modal=True))
 
 
 @app.route("/admin_panel")
