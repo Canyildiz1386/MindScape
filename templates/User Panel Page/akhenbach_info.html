@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" type="x-icon" href="/mind_9548035.png">
+    <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename='images/mind_9548035.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>شروع آزمون</title>
     <link
@@ -21,7 +21,7 @@
       integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="/start-quiz-info/STYLES/start.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/start.css') }}" />
     <style>
       body {
         direction: rtl;
@@ -29,9 +29,9 @@
 
       @font-face {
         font-family: "Anjomanweb VF";
-        src: url("/AnjomanwebGX.woff") format("woff-variations"),
+        src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
           /* will be the standard and works in Safari now */
-            url("/AnjomanwebGX.woff") format("woff");
+            url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
         /* for the other supporting browsers */
         font-display: fallback;
       }
@@ -74,7 +74,7 @@
           <img
             class="d-none d-md-block"
             style="width: 50%"
-            src="/start-quiz-info/IMAGES/brain-logo-085FB58CDA-seeklogo.com.png"
+            src="{{ url_for('static', filename='images/brain-logo-085FB58CDA-seeklogo.com.png') }}"
           />
         </div>
       </div>
@@ -104,7 +104,7 @@
     </div>
 
     <div id="demo" class="collapse container my-3">
-      <form action="./quiz.html" class="form">
+      <form action="{{ url_for('take_akhenbach') }}" method="POST" class="form">
         <div class="row">
           <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
             <label for="fname" class="form-label">نام :</label>
@@ -112,6 +112,7 @@
               type="text"
               class="form-control"
               id="fname"
+              name="fname"
               required
               placeholder="نام خود را وارد کنید"
             />
@@ -122,6 +123,7 @@
               type="text"
               class="form-control"
               id="lname"
+              name="lname"
               required
               placeholder="نام خانوادگی خود را وارد کنید:"
             />
@@ -129,33 +131,35 @@
           <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
             <label for="gender" class="form-label">جنسیت:</label>
             <select name="gender" id="gender" class="form-select" required>
-              <option value="male">مرد</option>
-              <option value="female">زن</option>
+                <option value="male">مرد</option>
+                <option value="female">زن</option>
             </select>
-          </div>
+        </div>
           <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
             <label for="home" class="form-label">استان محل سکونت :</label>
             <input
               type="text"
               class="form-control"
               id="home"
+              name="home"
               required
               placeholder="استان خود را وارد کنید"
             />
           </div>
-          <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
+
+        <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
             <label for="date" class="form-label">تاریخ تولد :</label>
             <input
-              type="date"
-              class="form-control"
-              id="date"
-              required
-              placeholder=""
+                type="date"
+                class="form-control"
+                id="date"
+                name="birthdate"
+                required
             />
-          </div>
+        </div>
           <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
             <label for="education" class="form-label"> تحصیلات :</label>
-            <select name="gender" id="education" class="form-select" required>
+            <select name="education" id="education" class="form-select" required>
               <option value="زیر دیپلم">زیر دیپلم</option>
               <option value="دیپلم">دیپلم</option>
               <option value="لیسانس">لیسانس</option>
@@ -169,6 +173,7 @@
               type="email"
               class="form-control"
               id="email"
+              name="email"
               placeholder="ایمیل خود را وارد کنید"
             />
           </div>
@@ -190,5 +195,5 @@
       </button>
     </div>
   </body>
-  <script src="/start-quiz-info/file.js"></script>
+  <script src="{{ url_for('static', filename='js/file2.js') }}"></script>
 </html>

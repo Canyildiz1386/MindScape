@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename='images/mind_9548035.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نتیجه آزمون آخنباخ</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+    />
+    <script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}" />
+    <style>
+        body {
+            direction: rtl;
+        }
+
+        @font-face {
+            font-family: "Anjomanweb VF";
+            src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
+                 url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
+            font-display: fallback;
+        }
+
+        * {
+            font-family: "Anjomanweb VF";
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-3 rounded-4 shadow my-4">
+        <div class="container">
+            <div class="p-3 mb-4">
+                <h3 class="fs-3 text-center">نتیجه آزمون آخنباخ</h3>
+                <div class="mt-3">
+                    <p class="p-2">
+                        <span>نتایج آزمون بر اساس پاسخ‌های شما به شرح زیر است:</span>
+                    </p>
+                </div>
+    
+                <!-- Display the result message directly -->
+                <div class="my-4">
+                    <p>{{ result_message | safe }}</p>  <!-- use `| safe` to allow HTML tags -->
+                </div>
+    
+                <!-- Display the plot -->
+                <div class="text-center my-4">
+                    <img src="{{ url_for('static', filename='images/akhenbach_plot.png') }}" alt="CBCL T-Score Profile">
+                </div>
+            </div>
+    
+            <!-- Back to User Panel Button -->
+            <div class="d-grid">
+                <a href="{{ url_for('user_panel') }}" class="btn btn-secondary">بازگشت به صفحه کاربری</a>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
