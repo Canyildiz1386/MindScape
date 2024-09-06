@@ -1,124 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
     <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename='mind_9548035.png') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حساب کاربری</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/bootstrap.rtl.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/bootstrap.rtl.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/User-style.css') }}">
     <style>
-       @font-face {
-        font-family: "Anjomanweb VF";
-        src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
-          url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
-        font-display: fallback;
-      }
+        @font-face {
+            font-family: "Anjomanweb VF";
+            src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
+                url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
+            font-display: fallback;
+        }
 
-      * {
-        font-family: "Anjomanweb VF";
-      }
+        * {
+            font-family: "Anjomanweb VF";
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <nav>
-      <ul>
-        <li>
-          <a class="profile"><i class="fa-regular fa-user"></i> <span>{{ current_user.username }}</span> </a>
-        </li>
-        <li id="current_page">
-          <a href=""><i class="fa fa-home"></i><p>پنل کاربری</p></a>
-        </li>
-        <li>
-          <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i><p>خروج از حساب</p></a>
-        </li>
-      </ul>
+        <ul>
+            <li>
+                <a class="profile"><i class="fa-regular fa-user"></i> <span>{{ current_user.username }}</span> </a>
+            </li>
+            <li id="current_page">
+                <a href=""><i class="fa fa-home"></i><p>پنل کاربری</p></a>
+            </li>
+            <li>
+                <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i><p>خروج از حساب</p></a>
+            </li>
+        </ul>
     </nav>
 
     <div class="wrapper">
-      <div class="container">
-        <h3>پنل کاربری</h3>
-        <div class="number-of-quizes-box w-100 rounded-3">
-          <div class="number-of-quizes-content">
-            <p>تعداد آزمون های انجام شده:</p>
-            <div class="number-of-quizes">
-              <span>1</span>
-            </div>
-          </div>
-        </div>
-
         <div class="container">
-          <div class="row">
-            <div class="col-12 col-md-6 col-lg-4 gy-3">
-              <div class="card">
-                <div class="card-title mt-3 fs-3 fw-bold text-center">آزمون آکنباخ</div>
-                <div class="card-body text-start">
-                  <div class="row">
-                    <div class="col">
-                      <p>
-                        <span class="titles">دسته بندی:</span>
-                        <span class="ms-3 fs-5">کودکان</span>
-                      </p>
+            <h3>پنل کاربری</h3>
+            <div class="number-of-quizes-box w-100 rounded-3">
+                <div class="number-of-quizes-content">
+                    <p>تعداد آزمون‌های انجام‌شده:</p>
+                    <div class="number-of-quizes">
+                        <span>{{ exam_count }}</span> <!-- Show the number of exams taken -->
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p>
-                        <span class="titles">تعداد سوالات:</span>
-                        <span class="ms-3 fs-5">114</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p>
-                        <span class="titles">نمره سوالات:</span>
-                        <span class="ms-3 fs-5">2</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p>
-                        <span class="titles">نمره کل:</span> <span class="ms-3 fs-5">100</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col">
-                      <span class="titles">توضیحات:</span>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p>
-                        آزمون آکنباخ برای ارزیابی مشکلات رفتاری و هیجانی کودکان طراحی شده است. این آزمون شامل 50 سوال است که هر یک از آن‌ها دو امتیاز دارد. نمره کلی آزمون 100 است.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div class="row mt-3">
-                    <div class="col text-center">
-                      <a href="{{ url_for('take_akhenbach') }}"><button class="btn w-75 quiz-btn">شروع آزمون</button></a>
-                    </div>
-                  </div>
                 </div>
-              </div>
-
-              <br><br>
             </div>
+
+            <div class="container">
+                <div class="row">
+                    <!-- Loop through exam results and display them -->
+                    {% for result in exam_results %}
+                    <div class="col-12 col-md-6 col-lg-4 gy-3">
+                        <div class="card">
+                            <div class="card-title mt-3 fs-3 fw-bold text-center">
+                                آزمون {{ result.exam_type }}
+                            </div>
+                            <div class="card-body text-start">
+                                <div class="row">
+                                    <div class="col">
+                                        <p>
+                                            <span class="titles">تاریخ:</span>
+                                            <span class="ms-3 fs-5">{{ result.date_taken.strftime('%Y-%m-%d') }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <!-- Button to trigger modal -->
+                                        <button type="button" class="btn w-75 quiz-btn" data-bs-toggle="modal" data-bs-target="#resultModal{{ loop.index }}">
+                                            مشاهده نتایج
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                    </div>
+
+                    <!-- Modal for each result -->
+<!-- Modal for each result -->
+<div class="modal fade" id="resultModal{{ loop.index }}" tabindex="-1" aria-labelledby="resultModalLabel{{ loop.index }}" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="resultModalLabel{{ loop.index }}">نتایج آزمون {{ result.exam_type }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
           </div>
-        </div>
+          <div class="modal-body">
+              <h6>تاریخ: {{ result.date_taken.strftime('%Y-%m-%d') }}</h6>
+              <!-- Display interpretation directly with safe filter -->
+              <p>{{ result.interpretation | safe }}</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+          </div>
       </div>
+  </div>
+</div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='src/bootstrap.min.js') }}"></script>
-  </body>
+</body>
 </html>

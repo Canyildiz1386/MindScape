@@ -41,7 +41,8 @@
                 <a href="" class="nav-link dropdown-toggle text-white" data-toggle="dropdown">دسترسی سریع</a>
                 <div class="dropdown-menu">
                   <a href="#akhenbach" class="dropdown-item"> آزمون آکنباخ</a>
-                  <a href="#abuat" class="dropdown-item"> درباره ما</a>
+                  <a href="#cattell" class="dropdown-item">آزمون کتل</a> <!-- Cattell Link -->
+                  <a href="#about" class="dropdown-item"> درباره ما</a>
                   <a href="#contact" class="dropdown-item">ارتباط با ما</a>
                 </div>
               </li>
@@ -109,15 +110,15 @@
 
     <!-- Akhenbach Test Section START -->
     <div id="akhenbach" class="container mb-5 mt-5">
-      <h2 class="text-center m-4">آزمون آکنباخ</h2>
+      <h2 class="text-center m-4">آزمون آخنباخ</h2>
 
       <div class="row text-white">
         <div class="col-12">
           <div class="card h-100 rounded-4 bg-dark">
             <div class="card-body">
-              <h2 class="card-title mb-4 text-center">آزمون آکنباخ</h2>
+              <h2 class="card-title mb-4 text-center">آزمون آخنباخ</h2>
               <p class="card-text">
-                آزمون آکنباخ یکی از آزمون‌های معتبر و پرکاربرد در حوزه روانشناسی است که به ارزیابی رفتارهای کودکان و نوجوانان می‌پردازد. این آزمون شامل مجموعه‌ای از سوالات است که رفتارهای عاطفی، اجتماعی، و مشکلات رفتاری را مورد سنجش قرار می‌دهد. آزمون آکنباخ به روانشناسان و مشاوران کمک می‌کند تا وضعیت روانی و رفتاری افراد را به دقت بررسی کرده و برنامه‌های درمانی یا مشاوره‌ای مناسبی را پیشنهاد دهند.
+                آزمون آخنباخ یکی از آزمون‌های معتبر و پرکاربرد در حوزه روانشناسی است که به ارزیابی رفتارهای کودکان و نوجوانان می‌پردازد. این آزمون شامل مجموعه‌ای از سوالات است که رفتارهای عاطفی، اجتماعی، و مشکلات رفتاری را مورد سنجش قرار می‌دهد. آزمون آکنباخ به روانشناسان و مشاوران کمک می‌کند تا وضعیت روانی و رفتاری افراد را به دقت بررسی کرده و برنامه‌های درمانی یا مشاوره‌ای مناسبی را پیشنهاد دهند.
               </p>
               <p class="card-text">
                 نتایج این آزمون به صورت پروفایل‌های فردی ارائه می‌شود که نقاط قوت و ضعف هر فرد را در حوزه‌های مختلف رفتاری و عاطفی نمایش می‌دهد. این ابزار ارزشمند به والدین، مربیان، و متخصصان روانشناسی کمک می‌کند تا درک بهتری از وضعیت روانی کودکان و نوجوانان داشته باشند و اقدامات موثری برای بهبود رفتارها و حل مشکلات احتمالی آنان انجام دهند.
@@ -131,6 +132,31 @@
       </div>
     </div>
     <!-- Akhenbach Test Section END -->
+
+    <!-- Cattell Test Section START -->
+    <div id="cattell" class="container mb-5 mt-5">
+      <h2 class="text-center m-4">آزمون کتل</h2>
+
+      <div class="row text-white">
+        <div class="col-12">
+          <div class="card h-100 rounded-4 bg-dark">
+            <div class="card-body">
+              <h2 class="card-title mb-4 text-center">آزمون شخصیت کتل</h2>
+              <p class="card-text">
+                آزمون شخصیت کتل (16PF) یک آزمون معتبر بین‌المللی است که به ارزیابی شخصیت افراد بر اساس 16 عامل شخصیت اصلی می‌پردازد. این آزمون در تحقیقات و درمان‌های روانشناسی برای شناخت بهتر افراد و برنامه‌ریزی درمانی به‌کار می‌رود.
+              </p>
+              <p class="card-text">
+                این آزمون به روانشناسان کمک می‌کند تا ویژگی‌های شخصیتی هر فرد را در 16 بُعد مختلف مانند پایداری هیجانی، سلطه‌پذیری، و سرزندگی ارزیابی کرده و برنامه‌های مناسب برای بهبود وضعیت روانی افراد ارائه دهند.
+              </p>
+              <a class="btn bg-primary text-white w-100 mt-4" href="{{ url_for('take_cattell') }}" role="button">
+                شروع آزمون
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Cattell Test Section END -->
 
     <!-- Description START -->
     <div class="container-fluid description mt-4">
@@ -187,7 +213,7 @@
     </section>
 
     <!-- Abute START -->
-    <div class="container mt-4" id="abuat">
+    <div class="container mt-4" id="about">
       <section class="row p-3 d-flex align-items-center">
         <div class="col-12 col-md-8">
           <h3>با ما آشنا شوید</h3>
@@ -231,25 +257,6 @@
           </p>
         </div>
       </section>
-
-      <section class="row p-3 d-flex align-items-center">
-        <div class="col-12 col-md-8">
-          <h3>عنوان متن</h3>
-          <p>
-            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در
-            ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و
-            کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی
-          </p>
-        </div>
-        <div class="col-12 col-md-4">
-          <img class="brain" src="{{ url_for('static', filename='images/Untitled-31.png') }}" alt="" />
-        </div>
-      </section>
-
-      <section class="row p-3 d-flex align-items-center">
-        <!-- (Optional additional content here) -->
-      </section>
     </div>
     <!-- Abute END -->
 
@@ -265,9 +272,9 @@
             <li class="mt-3 p-2">
               <a href="#akhenbach" class="dropdown-item"> آزمون آکنباخ</a>
             </li>
-            <li class="mt-3 p-2">مقالات و مجلات</li>
+            <li class="mt-3 p-2"><a href="#cattell" class="dropdown-item">آزمون کتل</a></li> <!-- Cattell Link -->
             <li class="mt-3 p-2">
-              <a href="#abuat" class="dropdown-item"> درباره ما</a>
+              <a href="#about" class="dropdown-item"> درباره ما</a>
             </li>
           </ul>
         </div>
@@ -275,10 +282,11 @@
         <div class="col-md-4 w-auto mr-5 p-3 pt-5">
           <h4 class="align-items-center d-flex">
             <i class="fa-sharp fa-solid fa-list-check fa-lg me-1 pe-2"></i>
-            آزمون آکنباخ
+            آزمون‌ها
           </h4>
           <ul class="list-unstyled">
-            <li class="mt-3 p-2"><a href="{{ url_for('take_akhenbach') }}" class="text-white">شروع آزمون</a></li>
+            <li class="mt-3 p-2"><a href="{{ url_for('take_akhenbach') }}" class="text-white">شروع آزمون آخنباخ</a></li>
+            <li class="mt-3 p-2"><a href="{{ url_for('take_cattell') }}" class="text-white">شروع آزمون کتل</a></li> <!-- Cattell Start Button -->
           </ul>
         </div>
 

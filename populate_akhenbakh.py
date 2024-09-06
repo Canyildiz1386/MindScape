@@ -132,8 +132,6 @@ questions = [
     {"category": "سایر مشکلات", "question_text": "زیاد غر می زند"},
     {"category": "سایر مشکلات", "question_text": "آرزو می کند جنسیت دیگری داشت"},
 
-    # مشکلات دیگر (Other Specified Problems)
-    {"category": "سایر مشکلات", "question_text": "اگر کودک یا نوجوان مشکلات دیگری دارد که در فهرست بالا نیامده آنها را بنویسید"},
 ]
 
 def populate_akhenbach_questions():
