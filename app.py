@@ -38,7 +38,6 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(255), nullable=True)
 
 
-
 class AkhenbachQuestion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(100), nullable=False)
@@ -124,16 +123,40 @@ def logout():
     return redirect(url_for("home", open_modal=True))
 
 
+import json
+
 @app.route("/admin_panel")
 @login_required
 def admin_panel():
     if not current_user.is_admin:
         flash("🚫 شما اجازه دسترسی به این بخش را ندارید! 🚫", "danger")
         return redirect(url_for("home"))
-    return render_template("Admin Panel Page/adminhome.html")
 
+    user_count = User.query.count()
+    exam_count = 2
+    questions_count = 184 + 113
+    finished_exams_count = ExamResult.query.filter(ExamResult.score_data.isnot(None)).count()
 
-import json
+    akhenbach_exam_users = ExamResult.query.filter_by(exam_type="Akhenbach").all()
+    cattell_exam_users = ExamResult.query.filter_by(exam_type="Cattell").all()
+
+    for result in akhenbach_exam_users:
+        result.score_data = json.loads(result.score_data)
+        result.interpretation = calculate_results(result.gender, result.age, result.score_data)
+    
+    for result in cattell_exam_users:
+        result.score_data = json.loads(result.score_data)
+        result.interpretation = calculate_result(result.gender, result.age, result.score_data)
+
+    return render_template(
+        "Admin Panel Page/adminhome.html",
+        user_count=user_count,
+        exam_count=exam_count,
+        finished_exams_count=finished_exams_count,
+        questions_count=questions_count,
+        akhenbach_exam_users=akhenbach_exam_users,
+        cattell_exam_users=cattell_exam_users,
+    )
 
 
 @app.route("/user_panel")
@@ -162,6 +185,7 @@ def user_panel():
     return render_template(
         "User Panel Page/index.html", exam_results=exam_results, exam_count=exam_count
     )
+
 
 @app.route("/update_user_info", methods=["POST"])
 @login_required
@@ -210,7 +234,6 @@ def take_akhenbach():
         return redirect(url_for("akhenbach_questions", gender=gender, age=age))
 
     return render_template("User Panel Page/akhenbach_info.html")
-
 
 
 import json
@@ -318,20 +341,13 @@ def calculate_results(gender, age, score):
     for category, t_score in t_score_mapping.items():
         t_scores.append(t_score)
         if t_score == "نرمال":
-            interpretation += (
-                f"😊 نمره {category} فرزند شما در محدوده نرمال قرار دارد. 👌 وضعیت او طبیعی است و نیازی به نگرانی نیست.<br>"
-            )
+            interpretation += f"😊 نمره {category} فرزند شما در محدوده نرمال قرار دارد. 👌 وضعیت او طبیعی است و نیازی به نگرانی نیست.<br>"
         elif t_score == "مرزی":
-            interpretation += (
-                f"🤔 نمره {category} فرزند شما در محدوده مرزی قرار دارد. 📊 توصیه می‌شود کمی دقت بیشتری به این موضوع داشته باشید.<br>"
-            )
+            interpretation += f"🤔 نمره {category} فرزند شما در محدوده مرزی قرار دارد. 📊 توصیه می‌شود کمی دقت بیشتری به این موضوع داشته باشید.<br>"
         elif t_score == "بالینی":
-            interpretation += (
-                f"⚠️ نمره {category} فرزند شما در محدوده بالینی قرار دارد. 🚨 حتماً با یک متخصص مشورت کنید.<br>"
-            )
+            interpretation += f"⚠️ نمره {category} فرزند شما در محدوده بالینی قرار دارد. 🚨 حتماً با یک متخصص مشورت کنید.<br>"
 
     return interpretation
-
 
 
 def get_t_score(category, raw_score, gender, age):
@@ -722,7 +738,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🎉 نمره بالا در عامل A: شما خیلی اجتماعی هستید و دوست دارید با دیگران ارتباط برقرار کنید. 💬<br>"
 
-    elif factor == "B":  # هوش عمومی
+    elif factor == "B":
         if raw_score <= 3:
             result = (
                 "🧠 نمره پایین در عامل B: توانایی تفکر انتزاعی شما پایین است. 🤔<br>"

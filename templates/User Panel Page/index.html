@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='src/bootstrap.rtl.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/User-style.css') }}">
+    
     <style>
         @font-face {
             font-family: "Anjomanweb VF";
@@ -30,9 +31,12 @@
             <li id="current_page">
                 <a href=""><i class="fa fa-home"></i><p>پنل کاربری</p></a>
             </li>
+
             <li>
-                <a href="{{ url_for('logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i><p>خروج از حساب</p></a>
+                <!-- New button to open modal -->
+                <a href="#" data-bs-toggle="modal" data-bs-target="#userInfoModal"><i class="fa-solid fa-edit"></i><p class="d-inline m-2">ویرایش اطلاعات</p></a>
             </li>
+            <li><a href="{{ url_for('logout') }}"> <i class="fa-solid fa-arrow-right-from-bracket"></i><p class="d-inline m-2">خروج از حساب</p> </a></li>
         </ul>
     </nav>
 
@@ -80,27 +84,64 @@
                     </div>
 
                     <!-- Modal for each result -->
-<!-- Modal for each result -->
-<div class="modal fade" id="resultModal{{ loop.index }}" tabindex="-1" aria-labelledby="resultModalLabel{{ loop.index }}" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="resultModalLabel{{ loop.index }}">نتایج آزمون {{ result.exam_type }}</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
-          </div>
-          <div class="modal-body">
-              <h6>تاریخ: {{ result.date_taken.strftime('%Y-%m-%d') }}</h6>
-              <!-- Display interpretation directly with safe filter -->
-              <p>{{ result.interpretation | safe }}</p>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-          </div>
-      </div>
-  </div>
-</div>
-
+                    <div class="modal fade" id="resultModal{{ loop.index }}" tabindex="-1" aria-labelledby="resultModalLabel{{ loop.index }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="resultModalLabel{{ loop.index }}">نتایج آزمون {{ result.exam_type }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h6>تاریخ: {{ result.date_taken.strftime('%Y-%m-%d') }}</h6>
+                                    <p>{{ result.interpretation | safe }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for editing user info -->
+    <div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userInfoModalLabel">ویرایش اطلاعات کاربری</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('update_user_info') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">ایمیل</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">نام</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ current_user.first_name }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">نام خانوادگی</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ current_user.last_name }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">شماره تلفن</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ current_user.phone }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">آدرس</label>
+                            <input type="text" class="form-control" id="address" name="address" value="{{ current_user.address }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">ذخیره اطلاعات</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
                 </div>
             </div>
         </div>
