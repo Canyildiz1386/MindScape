@@ -13,6 +13,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime
 import matplotlib
+from deep_translator import GoogleTranslator
+import json
+import jdatetime
+
+
 
 matplotlib.use("Agg")
 
@@ -70,9 +75,31 @@ class ExamResult(db.Model):
         return f"<ExamResult {self.exam_type} by User {self.user_id}>"
 
 
+@app.route("/translate", methods=["POST"])
+def translate_text():
+    data = request.get_json()
+
+    if 'text' not in data or 'target_language' not in data:
+        return {"error": "Please provide both 'text' and 'target_language' in the request"}, 400
+
+    text = data['text']
+    target_language = data['target_language']
+
+    try:
+        translated_text = GoogleTranslator(target=target_language).translate(text)
+        return {"translated_text": translated_text}, 200
+    except Exception as e:
+        return {"error": str(e)}, 500
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash("🚫 لطفاً برای دسترسی به این صفحه وارد حساب کاربری خود شوید! 😊", "danger")
+    return redirect(url_for("home", open_modal=True)) 
 
 
 @app.route("/")
@@ -123,7 +150,7 @@ def logout():
     return redirect(url_for("home", open_modal=True))
 
 
-import json
+
 
 @app.route("/admin_panel")
 @login_required
@@ -135,18 +162,24 @@ def admin_panel():
     user_count = User.query.count()
     exam_count = 2
     questions_count = 184 + 113
-    finished_exams_count = ExamResult.query.filter(ExamResult.score_data.isnot(None)).count()
+    finished_exams_count = ExamResult.query.filter(
+        ExamResult.score_data.isnot(None)
+    ).count()
 
     akhenbach_exam_users = ExamResult.query.filter_by(exam_type="Akhenbach").all()
     cattell_exam_users = ExamResult.query.filter_by(exam_type="Cattell").all()
 
     for result in akhenbach_exam_users:
         result.score_data = json.loads(result.score_data)
-        result.interpretation = calculate_results(result.gender, result.age, result.score_data)
-    
+        result.interpretation = calculate_results(
+            result.gender, result.age, result.score_data
+        )
+
     for result in cattell_exam_users:
         result.score_data = json.loads(result.score_data)
-        result.interpretation = calculate_result(result.gender, result.age, result.score_data)
+        result.interpretation = calculate_result(
+            result.gender, result.age, result.score_data
+        )
 
     return render_template(
         "Admin Panel Page/adminhome.html",
@@ -216,6 +249,8 @@ def admin_quiz():
     return render_template("Admin Quiz Page/adminquiz.html")
 
 
+
+
 @app.route("/take_akhenbach", methods=["GET", "POST"])
 @login_required
 def take_akhenbach():
@@ -223,12 +258,14 @@ def take_akhenbach():
         gender = request.form.get("gender")
         birthdate = request.form.get("birthdate")
 
-        birthdate = datetime.strptime(birthdate, "%Y-%m-%d")
+        persian_date = jdatetime.datetime.strptime(birthdate, "%Y/%m/%d")
+        gregorian_date = persian_date.togregorian()
+
         today = datetime.today()
         age = (
             today.year
-            - birthdate.year
-            - ((today.month, today.day) < (birthdate.month, birthdate.day))
+            - gregorian_date.year
+            - ((today.month, today.day) < (gregorian_date.month, gregorian_date.day))
         )
 
         return redirect(url_for("akhenbach_questions", gender=gender, age=age))
@@ -236,7 +273,6 @@ def take_akhenbach():
     return render_template("User Panel Page/akhenbach_info.html")
 
 
-import json
 
 
 @app.route("/akhenbach_questions/<gender>/<age>", methods=["GET", "POST"])
@@ -306,48 +342,29 @@ def akhenbach_results():
     }
 
     results = calculate_results(gender, age, score)
+
+    categories = list(score.keys())
+    scores = list(score.values())
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(categories, scores, color='lightcoral')
+    plt.xlabel('Categories')
+    plt.ylabel('Scores')
+    plt.title('Akhenbach Test Results')
+    plt.xticks(rotation=45, ha='right')
+
+    plot_filename = "akhenbach_plot.png"
+    plot_path = os.path.join("static", plot_filename)
+    plt.savefig(plot_path, bbox_inches='tight')
+    plt.close()
+
     return render_template(
-        "User Panel Page/akhenbach_results.html", result_message=results
+        "User Panel Page/akhenbach_results.html", result_message=results[0], plot_url=url_for('static', filename=plot_filename)
     )
 
 
-def calculate_results(gender, age, score):
-    interpretation = ""
-    t_scores = []
-    t_score_mapping = {
-        "اضطراب/افسردگی": get_t_score(
-            "اضطراب/افسردگی", score["اضطراب/افسردگی"], gender, age
-        ),
-        "گوشه گیری/افسردگی": get_t_score(
-            "گوشه گیری/افسردگی", score["گوشه گیری/افسردگی"], gender, age
-        ),
-        "شکایات جسمانی": get_t_score(
-            "شکایات جسمانی", score["شکایات جسمانی"], gender, age
-        ),
-        "مشکلات اجتماعی": get_t_score(
-            "مشکلات اجتماعی", score["مشکلات اجتماعی"], gender, age
-        ),
-        "مشکلات تفکر": get_t_score("مشکلات تفکر", score["مشکلات تفکر"], gender, age),
-        "مشکلات توجه": get_t_score("مشکلات توجه", score["مشکلات توجه"], gender, age),
-        "رفتار قانون شکنی": get_t_score(
-            "رفتار قانون شکنی", score["رفتار قانون شکنی"], gender, age
-        ),
-        "رفتار پرخاشگرانه": get_t_score(
-            "رفتار پرخاشگرانه", score["رفتار پرخاشگرانه"], gender, age
-        ),
-        "سایر مشکلات": "مقیاس سفارشی است",
-    }
 
-    for category, t_score in t_score_mapping.items():
-        t_scores.append(t_score)
-        if t_score == "نرمال":
-            interpretation += f"😊 نمره {category} فرزند شما در محدوده نرمال قرار دارد. 👌 وضعیت او طبیعی است و نیازی به نگرانی نیست.<br>"
-        elif t_score == "مرزی":
-            interpretation += f"🤔 نمره {category} فرزند شما در محدوده مرزی قرار دارد. 📊 توصیه می‌شود کمی دقت بیشتری به این موضوع داشته باشید.<br>"
-        elif t_score == "بالینی":
-            interpretation += f"⚠️ نمره {category} فرزند شما در محدوده بالینی قرار دارد. 🚨 حتماً با یک متخصص مشورت کنید.<br>"
 
-    return interpretation
 
 
 def get_t_score(category, raw_score, gender, age):
@@ -616,12 +633,13 @@ def take_cattell():
         gender = request.form.get("gender")
         birthdate = request.form.get("birthdate")
 
-        birthdate = datetime.strptime(birthdate, "%Y-%m-%d")
+        persian_date = jdatetime.datetime.strptime(birthdate, "%Y/%m/%d")
+        gregorian_date = persian_date.togregorian()
         today = datetime.today()
         age = (
             today.year
-            - birthdate.year
-            - ((today.month, today.day) < (birthdate.month, birthdate.day))
+            - gregorian_date.year
+            - ((today.month, today.day) < (gregorian_date.month, gregorian_date.day))
         )
 
         return redirect(url_for("cattell_questions", gender=gender, age=age))
@@ -651,19 +669,16 @@ def cattell_questions(gender, age):
             "Q3": 0,
             "Q4": 0,
         }
-
         for question_id, answer in request.form.items():
             if question_id.isdigit():
                 question = CattellQuestion.query.get(int(question_id))
-                if answer == "no":
+                if answer == "1":
                     score[question.category] += question.score_no
-                elif answer == "maybe":
+                elif answer == "2":
                     score[question.category] += question.score_maybe
-                elif answer == "yes":
+                elif answer == "3":
                     score[question.category] += question.score_yes
-
         score_data = json.dumps(score)
-
         exam_result = ExamResult(
             user_id=current_user.id,
             exam_type="Cattell",
@@ -684,6 +699,51 @@ def cattell_questions(gender, age):
         age=age,
     )
 
+
+import arabic_reshaper
+from bidi.algorithm import get_display
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as font_manager
+import os
+from matplotlib import rcParams
+
+font_path = os.path.join('static', 'src', 'AnjomanwebGX.ttf')  
+font_manager.fontManager.addfont(font_path)
+plt.rcParams['font.family'] = 'Anjomanweb VF'
+
+def reshape_text(text):
+    reshaped_text = arabic_reshaper.reshape(text)  
+    return get_display(reshaped_text) 
+
+def generate_plot(exam_type, score):
+    labels = list(score.keys())
+    values = list(score.values())
+
+    reshaped_labels = [reshape_text(label) for label in labels]
+
+    plt.figure(figsize=(10, 6))
+    
+    plt.bar(reshaped_labels, values, color='lightcoral')
+    
+    # Set the labels and title using reshaped Persian text
+    plt.xlabel(reshape_text('دسته‌ها'), fontsize=14)  # Persian for 'Categories'
+    plt.ylabel(reshape_text('امتیاز'), fontsize=14)  # Persian for 'Scores'
+    plt.title(reshape_text(f'نتایج آزمون {exam_type}'), fontsize=16)  # Persian for 'Test Results'
+
+    # Rotate the x-ticks for better readability, and set the right alignment
+    plt.xticks(rotation=45, ha='right', fontsize=12)
+
+    # Save the plot
+    plot_filename = f'static/plots/{exam_type}_result.png'
+    plt.tight_layout()
+    plt.savefig(plot_filename, bbox_inches='tight')
+    plt.close()
+
+    return plot_filename
+
+import numpy as np
+import os
+from flask import send_file
 
 @app.route("/cattell_results")
 @login_required
@@ -710,24 +770,90 @@ def cattell_results():
     }
 
     results = calculate_result(gender, age, score)
+
+    # Generate a bar plot for the scores
+    factors = list(score.keys())
+    scores = list(score.values())
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(factors, scores, color='skyblue')
+    plt.xlabel('Factors')
+    plt.ylabel('Scores')
+    plt.title('Cattell Personality Factor Scores')
+    plt.xticks(rotation=45, ha='right')
+
+    plot_filename = "cattell_plot.png"
+    plot_path = os.path.join("static", plot_filename)
+    plt.savefig(plot_path, bbox_inches='tight')
+    plt.close()
+
     return render_template(
-        "User Panel Page/cattell_results.html", result_message=results
+        "User Panel Page/cattell_results.html", result_message=results[0], plot_url=url_for('static', filename=plot_filename)
     )
+
+
+import os
+from flask import send_file
+
+# Ensure the directory for storing plot images exists
+if not os.path.exists('static/plots'):
+    os.makedirs('static/plots')
+
+
+def calculate_results(gender, age, score):
+    interpretation = ""
+    t_scores = []
+    t_score_mapping = {
+        "اضطراب/افسردگی": get_t_score(
+            "اضطراب/افسردگی", score["اضطراب/افسردگی"], gender, age
+        ),
+        "گوشه گیری/افسردگی": get_t_score(
+            "گوشه گیری/افسردگی", score["گوشه گیری/افسردگی"], gender, age
+        ),
+        "شکایات جسمانی": get_t_score(
+            "شکایات جسمانی", score["شکایات جسمانی"], gender, age
+        ),
+        "مشکلات اجتماعی": get_t_score(
+            "مشکلات اجتماعی", score["مشکلات اجتماعی"], gender, age
+        ),
+        "مشکلات تفکر": get_t_score("مشکلات تفکر", score["مشکلات تفکر"], gender, age),
+        "مشکلات توجه": get_t_score("مشکلات توجه", score["مشکلات توجه"], gender, age),
+        "رفتار قانون شکنی": get_t_score(
+            "رفتار قانون شکنی", score["رفتار قانون شکنی"], gender, age
+        ),
+        "رفتار پرخاشگرانه": get_t_score(
+            "رفتار پرخاشگرانه", score["رفتار پرخاشگرانه"], gender, age
+        ),
+        "سایر مشکلات": "مقیاس سفارشی است",
+    }
+
+    for category, t_score in t_score_mapping.items():
+        t_scores.append(t_score)
+        if t_score == "نرمال":
+            interpretation += f"😊 نمره {category} فرزند شما در محدوده نرمال قرار دارد. 👌 وضعیت او طبیعی است و نیازی به نگرانی نیست.<br>"
+        elif t_score == "مرزی":
+            interpretation += f"🤔 نمره {category} فرزند شما در محدوده مرزی قرار دارد. 📊 توصیه می‌شود کمی دقت بیشتری به این موضوع داشته باشید.<br>"
+        elif t_score == "بالینی":
+            interpretation += f"⚠️ نمره {category} فرزند شما در محدوده بالینی قرار دارد. 🚨 حتماً با یک متخصص مشورت کنید.<br>"
+
+    # Generate and return the plot file path
+    plot_filename = generate_plot("Akhenbach", score)
+    
+    return interpretation, plot_filename
 
 
 def calculate_result(gender, age, score):
     interpretation = ""
-    t_scores = []
-
     for factor, raw_score in score.items():
         interpretation += interpret_cattell(factor, raw_score)
 
-    return interpretation
+    plot_filename = generate_plot("Cattell", score)
+
+    return interpretation, plot_filename
 
 
 def interpret_cattell(factor, raw_score):
     result = ""
-
     if factor == "A":
         if raw_score <= 3:
             result = "🧍‍♂️ نمره پایین در عامل A: شما فردی اجتماعی نیستید و ترجیح می‌دهید تنها باشید. 😶‍🌫️<br>"
@@ -748,7 +874,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "💡 نمره بالا در عامل B: شما دارای توانایی‌های یادگیری سریع و تفکر انتزاعی هستید. 👨‍🏫<br>"
 
-    elif factor == "C":  # پایداری هیجانی
+    elif factor == "C":
         if raw_score <= 3:
             result = "😰 نمره پایین در عامل C: شما به راحتی دچار ناپایداری هیجانی می‌شوید. 😢<br>"
         elif 4 <= raw_score <= 7:
@@ -758,7 +884,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "😎 نمره بالا در عامل C: شما خیلی پایدار و آرام هستید. 😌<br>"
 
-    elif factor == "E":  # سلطه‌گری در برابر سلطه‌پذیری
+    elif factor == "E":
         if raw_score <= 3:
             result = "🧑‍🤝‍🧑 نمره پایین در عامل E: شما فردی مطیع هستید و از درگیری‌ها اجتناب می‌کنید. 🫱<br>"
         elif 4 <= raw_score <= 7:
@@ -766,7 +892,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🗣️ نمره بالا در عامل E: شما خیلی assertive هستید و دوست دارید مدیریت کنید. 👩‍💼<br>"
 
-    elif factor == "F":  # سرزندگی در برابر جدیت
+    elif factor == "F":
         if raw_score <= 3:
             result = "😐 نمره پایین در عامل F: شما فردی جدی و اهل برنامه هستید. 📝<br>"
         elif 4 <= raw_score <= 7:
@@ -774,7 +900,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "😄 نمره بالا در عامل F: شما سرزنده و شاداب هستید و دوست دارید زندگی را به سبک خود بگذرانید. 🎉<br>"
 
-    elif factor == "G":  # خودکنترلی و رعایت قواعد در برابر نافرمانی
+    elif factor == "G":
         if raw_score <= 3:
             result = "🤷‍♂️ نمره پایین در عامل G: شما زیاد به قوانین توجه نمی‌کنید و انعطاف‌پذیری بالایی دارید. 😌<br>"
         elif 4 <= raw_score <= 7:
@@ -782,7 +908,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "👮‍♂️ نمره بالا در عامل G: شما فردی با مسئولیت هستید و قوانین را به شدت رعایت می‌کنید. 👨‍⚖️<br>"
 
-    elif factor == "H":  # جسارت اجتماعی در برابر خجالتی بودن
+    elif factor == "H":
         if raw_score <= 3:
             result = "😶 نمره پایین در عامل H: شما خجالتی و محتاط هستید و از برخوردهای اجتماعی اجتناب می‌کنید. 🤐<br>"
         elif 4 <= raw_score <= 7:
@@ -790,7 +916,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🎤 نمره بالا در عامل H: شما خیلی جسور و اجتماعی هستید و از حضور در مرکز توجه لذت می‌برید. 🕺<br>"
 
-    elif factor == "I":  # حساسیت و احساسات‌گرایی در برابر واقع‌گرایی
+    elif factor == "I":
         if raw_score <= 3:
             result = "🛠 نمره پایین در عامل I: شما فردی واقع‌گرا و عمل‌گرا هستید و به احساسات کمتر توجه دارید. 🧑‍🔧<br>"
         elif 4 <= raw_score <= 7:
@@ -798,7 +924,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🌸 نمره بالا در عامل I: شما فردی حساس، لطیف و احساساتی هستید و به جزئیات احساسی اهمیت می‌دهید. 💕<br>"
 
-    elif factor == "L":  # شکاکیت در برابر اعتماد
+    elif factor == "L":
         if raw_score <= 3:
             result = "🤗 نمره پایین در عامل L: شما به دیگران اعتماد دارید و راحت با آن‌ها کنار می‌آیید. 🤝<br>"
         elif 4 <= raw_score <= 7:
@@ -806,7 +932,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🧐 نمره بالا در عامل L: شما نسبت به دیگران شکاک و منتقد هستید و به راحتی اعتماد نمی‌کنید. 😠<br>"
 
-    elif factor == "M":  # تخیل در برابر واقع‌گرایی
+    elif factor == "M":
         if raw_score <= 3:
             result = "🛠 نمره پایین در عامل M: شما واقع‌گرا و منطقی هستید و تخیل زیادی ندارید. 🔧<br>"
         elif 4 <= raw_score <= 7:
@@ -814,7 +940,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🌈 نمره بالا در عامل M: شما فردی خیال‌پرداز هستید و بیشتر در دنیای تخیلات خود زندگی می‌کنید. 🌠<br>"
 
-    elif factor == "N":  # هوشیاری و زرنگی در برابر سادگی
+    elif factor == "N":
         if raw_score <= 3:
             result = "😇 نمره پایین در عامل N: شما فردی ساده، صادق و بدون پیچیدگی هستید. 🥰<br>"
         elif 4 <= raw_score <= 7:
@@ -822,7 +948,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🤨 نمره بالا در عامل N: شما فردی هوشیار، زرنگ و پیچیده هستید و روابطتان را حساب‌شده مدیریت می‌کنید. 🧠<br>"
 
-    elif factor == "O":  # احساس گناه و نگرانی در برابر اعتماد به نفس
+    elif factor == "O":
         if raw_score <= 3:
             result = "😌 نمره پایین در عامل O: شما به خود اعتماد دارید و به راحتی نگران نمی‌شوید. 😊<br>"
         elif 4 <= raw_score <= 7:
@@ -830,7 +956,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "😟 نمره بالا در عامل O: شما نگرانی زیادی دارید و خود را به شدت قضاوت می‌کنید. 😔<br>"
 
-    elif factor == "Q1":  # محافظه‌کاری در برابر باز بودن به تغییر
+    elif factor == "Q1":
         if raw_score <= 3:
             result = "🛑 نمره پایین در عامل Q1: شما فردی محافظه‌کار هستید و تغییرات را دوست ندارید. 🧳<br>"
         elif 4 <= raw_score <= 7:
@@ -838,7 +964,7 @@ def interpret_cattell(factor, raw_score):
         else:
             result = "🌍 نمره بالا در عامل Q1: شما خیلی باز به تغییرات و نوآوری هستید و از ایده‌های جدید استقبال می‌کنید. 🚀<br>"
 
-    elif factor == "Q2":  # اتکا به خود در برابر اتکا به گروه
+    elif factor == "Q2":
         if raw_score <= 3:
             result = "🤝 نمره پایین در عامل Q2: شما بیشتر به گروه و حمایت دیگران تکیه می‌کنید. 👥<br>"
         elif 4 <= raw_score <= 7:

@@ -11,6 +11,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous"
     />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -37,46 +38,101 @@
         * {
             font-family: "Anjomanweb VF";
         }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
 <div class="container py-3 rounded-4 shadow my-4">
     <div class="container">
-        <form method="POST">
-            <!-- Loop through the questions -->
+        <form method="POST" id="quizForm">
             {% for question in questions %}
-            <div class="p-3 mb-4">
+            <div class="p-3 mb-4 question-container {% if loop.index == 1 %}active{% endif %}" id="question_{{ loop.index }}">
                 <span class="fs-3">سوال <span>{{ loop.index }}</span><span class="opacity-50">/184</span></span>
                 <div class="mt-3">
                     <p class="p-2">
                         <span>{{ question.question_text }}</span>
                     </p>
                 </div>
-
-                <!-- Answer options -->
                 <div class="my-4">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ question.id }}" id="option1_{{ question.id }}" value="1" required>
+                        <input class="form-check-input"  type="radio" name="{{ question.id }}" id="option1_{{ question.id }}" value="1" required>
                         <label class="form-check-label" for="option1_{{ question.id }}">خیر</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input"  type="radio" name="{{ question.id }}" id="option2_{{ question.id }}" value="2">
-                        <label class="form-check-label" for="option2_{{ question.id }}">بین این دو</label>
+                        <label class="form-check-label"  for="option2_{{ question.id }}">بین این دو</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ question.id }}" id="option3_{{ question.id }}" value="3">
-                        <label class="form-check-label" for="option3_{{ question.id }}">بله</label>
+                        <input class="form-check-input"  checked type="radio" name="{{ question.id }}" id="option3_{{ question.id }}" value="3">
+                        <label class="form-check-label"  for="option3_{{ question.id }}" >بله</label>
                     </div>
                 </div>
             </div>
             {% endfor %}
 
-            <!-- Submit button -->
-            <div class="d-grid">
-                <button class="btn btn-primary" type="submit">ارسال</button>
+            <div class="d-grid mt-4">
+                <button class="btn btn-primary" type="button" id="nextButton">سوال بعدی</button>
+                <button class="btn btn-success d-none" type="submit" id="submitButton">ارسال</button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let currentQuestion = 1;
+        const totalQuestions = {{ questions|length }};
+        const nextButton = document.getElementById('nextButton');
+        const submitButton = document.getElementById('submitButton');
+
+        nextButton.addEventListener('click', function() {
+            const currentQuestionElement = document.getElementById('question_' + currentQuestion);
+            const nextQuestionElement = document.getElementById('question_' + (currentQuestion + 1));
+
+            const checkedOption = currentQuestionElement.querySelector('input[type="radio"]:checked');
+            if (!checkedOption) {
+                alert('لطفاً یک گزینه را انتخاب کنید.');
+                return;
+            }
+
+            currentQuestionElement.classList.remove('active');
+
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                nextQuestionElement.classList.add('active');
+            }
+
+            if (currentQuestion === totalQuestions) {
+                nextButton.classList.add('d-none');
+                submitButton.classList.remove('d-none');
+            }
+        });
+    });
+</script>
+<script>
+    let hide = document.querySelector("#start");
+    
+    function hidebutt() {
+      hide.className = "hidden";
+    }
+    
+    $(document).ready(function() {
+      var minDate = [1387, 1, 1];
+      var maxDate = [1399, 12, 29];
+
+      $("#date").pDatepicker({
+        format: 'YYYY/MM/DD',
+        minDate: minDate,
+        maxDate: maxDate,
+      });
+    });
+</script>
 </body>
 </html>

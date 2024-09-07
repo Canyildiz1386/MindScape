@@ -56,13 +56,178 @@
                 </div>
     
             </div>
-    
+            <div class="text-center">
+              <h4>نمودار نمرات آزمون</h4>
+              <img src="{{ plot_url }}" alt="Akhenbach Test Plot" class="img-fluid rounded">
+          </div>
             <!-- Back to User Panel Button -->
             <div class="d-grid">
                 <a href="{{ url_for('user_panel') }}" class="btn btn-secondary">بازگشت به صفحه کاربری</a>
             </div>
+
         </div>
     </div>
+    <script>
+      function showLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.style.opacity = '1'; 
+        overlay.style.visibility = 'visible';
+      }
     
+      function hideLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.classList.add('fade-out');
+    
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 500); }
+    
+      function setLTRLayout() {
+        document.body.style.direction = 'ltr'; 
+        document.body.style.textAlign = 'left';
+      }
+    
+      async function translatePage(language) {
+  const elements = document.querySelectorAll("h1, h2, h3, h4, p, button, a, span, input, textarea");
+  showLoadingOverlay();
+
+  for (let element of elements) {
+    // Skip translation for <input> and <textarea> fields (handle their placeholders separately below)
+    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+      continue;
+    }
+
+    // Split the element's inner content to handle text and icons separately
+    let childNodes = Array.from(element.childNodes);
+
+    // Process each child node individually
+    for (let child of childNodes) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        // If it's a text node, perform the translation
+        let text = child.textContent.trim();
+
+        if (text) {
+          const cachedTranslation = localStorage.getItem(`${language}-${text}`);
+
+          if (cachedTranslation) {
+            child.textContent = cachedTranslation;
+          } else {
+            try {
+              const response = await fetch("/translate", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  text: text,
+                  target_language: language,
+                }),
+              });
+
+              const result = await response.json();
+
+              if (response.ok) {
+                child.textContent = result.translated_text;
+                localStorage.setItem(`${language}-${text}`, result.translated_text);
+              }
+            } catch (error) {
+              console.error("Error translating text:", error);
+            }
+          }
+        }
+      }
+      // If it's an icon node (<i> or class with icon), do nothing and skip it
+    }
+
+    // Now handle placeholders for input and textarea fields
+    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+      const placeholderText = element.placeholder;
+
+      if (placeholderText) {
+        const cachedPlaceholderTranslation = localStorage.getItem(`${language}-${placeholderText}`);
+
+        if (cachedPlaceholderTranslation) {
+          element.placeholder = cachedPlaceholderTranslation;
+        } else {
+          try {
+            const response = await fetch("/translate", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                text: placeholderText,
+                target_language: language,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              element.placeholder = result.translated_text;
+              localStorage.setItem(`${language}-${placeholderText}`, result.translated_text);
+            }
+          } catch (error) {
+            console.error("Error translating placeholder:", error);
+          }
+        }
+      }
+    }
+  }
+
+  setLTRLayout(); 
+  hideLoadingOverlay(); 
+}
+
+    
+      function checkLanguageInSlug() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('lang')) {
+          const language = urlParams.get('lang');
+          translatePage(language);
+        } else {
+          hideLoadingOverlay(); // Hide overlay if no language slug is present
+        }
+      }
+    
+      window.onload = checkLanguageInSlug;
+    </script>
+    
+    
+    
+    <style>
+      #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 0.5s ease; /* Smooth transition */
+      }
+    
+      #loading-spinner {
+        position: absolute;
+      }
+    
+      .fade-out {
+        opacity: 0;
+        visibility: hidden; /* Ensure the overlay is hidden after fading */
+      }
+    </style>
+    
+<div id="loading-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 9999;">
+  <div id="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

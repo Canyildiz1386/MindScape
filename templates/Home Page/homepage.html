@@ -5,12 +5,12 @@
     <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename='src/mind_9548035.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>روان افرا</title>
-    <!-- Style links -->
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='src/css/bootstrap.rtl.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Home-style.css') }}" />
-
+    <link href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" rel="stylesheet"/>
+  
     <style>
       @font-face {
         font-family: "Anjomanweb VF";
@@ -21,13 +21,15 @@
       * {
         font-family: "Anjomanweb VF";
       }
+      .dropdown-item .fi {
+        margin-right: 8px;
+        font-size: 1.2rem;
+      }
     </style>
   </head>
   <body>
-    <!-- header start -->
     <header class="container-fluid bg-black">
       <section class="container">
-        <!-- Navbar START -->
         <nav class="navbar navbar-expand-lg navbar-light">
           <button class="navbar-toggler border border-2" data-toggle="collapse" data-target="#myNav">
             <i class="fas fa-bars text-white fa-lg"></i>
@@ -36,6 +38,14 @@
             <ul class="navbar-nav list-unstyled my-3 my-md-0">
               <li class="nav-item mx-2">
                 <a href="" class="nav-link active text-white">صفحه اصلی</a>
+              </li>
+              <li class="nav-item mx-2 dropdown">
+                <a href="" class="nav-link dropdown-toggle text-white" data-toggle="dropdown">زبان</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="?lang=en"><span class="fi fi-gb"></span> English</a>
+                  <a class="dropdown-item" href="/"><span class="fi fi-ir"></span> فارسی</a>
+                  <a class="dropdown-item" href="?lang=fr"><span class="fi fi-fr"></span> Français</a>
+                </div>
               </li>
               <li class="nav-item mx-2 dropdown">
                 <a href="" class="nav-link dropdown-toggle text-white" data-toggle="dropdown">دسترسی سریع</a>
@@ -51,23 +61,17 @@
               </li>
             </ul>
           </div>
-          <!-- Check if the user is authenticated -->
           {% if current_user.is_authenticated %}
-            <!-- If the user is logged in, show the user panel button -->
             <a href="{{ url_for('user_panel') }}" class="btn mt-1 mt-md-4 reg-btn text-white">
               سلام، {{ current_user.username }}
             </a>
           {% else %}
-            <!-- If the user is not logged in, show the login/signup button -->
             <button type="button" class="btn mt-1 mt-md-4 reg-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
               ورود / ثبت نام
             </button>
           {% endif %}
         </nav>
       </section>
-      <!-- Navbar END -->
-
-      <!-- -----------------------banner-start-------------------- -->
       <section class="container mt-4">
         <div class="row pt-5">
           <div class="col-12 col-lg-6 text-white">
@@ -75,17 +79,13 @@
             <p class="banner-text">
               در روان افرا، ما متعهد به بهبود سلامت روانی و شناختی شما هستیم. با استفاده از آزمون‌های معتبر و استاندارد، همچون آزمون آکنباخ و کتل، می‌توانید وضعیت روحی و شخصیتی خود یا فرزندانتان را بهتر درک کنید. با راهنمایی‌های تخصصی ما، قدم‌های محکم‌تری به سوی ارتقای سلامت روان خود بردارید.
             </p>
-  
           </div>
-
           <div class="col-lg-6 text-white">
             <img src="{{ url_for('static', filename='src/Art-Brain-Free-PNG-Image.png') }}" alt="" class="d-none d-lg-block" style="width: 100%" />
           </div>
         </div>
       </section>
     </header>
-    <!-- -----------------------banner-start-------------------- -->
-    <!-- --------------------------------------------Header END --------------------------------------- -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="container mt-3">
@@ -95,10 +95,8 @@
       </div>
     {% endif %}
     {% endwith %}
-    <!-- Akhenbach Test Section START -->
     <div id="akhenbach" class="container mb-5 mt-5">
       <h2 class="text-center m-4">آزمون آخنباخ</h2>
-
       <div class="row text-white">
         <div class="col-12">
           <div class="card h-100 rounded-4 bg-dark">
@@ -118,12 +116,8 @@
         </div>
       </div>
     </div>
-    <!-- Akhenbach Test Section END -->
-
-    <!-- Cattell Test Section START -->
     <div id="cattell" class="container mb-5 mt-5">
       <h2 class="text-center m-4">آزمون کتل</h2>
-
       <div class="row text-white">
         <div class="col-12">
           <div class="card h-100 rounded-4 bg-dark">
@@ -143,9 +137,6 @@
         </div>
       </div>
     </div>
-    <!-- Cattell Test Section END -->
-
-    <!-- Description START -->
     <div class="container-fluid description mt-4">
       <div class="d-flex justify-content-around align-items-center p-3">
         <div class="px-1 mt-5 text-white">
@@ -157,8 +148,6 @@
         <img class="d-none d-md-block purpleBrain" src="{{ url_for('static', filename='images/Untitled-1.png') }}" alt="" />
       </div>
     </div>
-    <!-- Description END -->
-
     <section class="container-fluid text-white bg-black">
       <div class="row">
         <div class="col-md-6 d-flex align-items-center justify-content-center">
@@ -174,7 +163,7 @@
           </div>
           <div class="row">
             <div class="col m-5 text-center">
-              <p>برای ادامه ثبت نام کنید...</p>
+              <p>برای ادامه ثبت نام کنید</p>
             </div>
           </div>
           <div class="row">
@@ -187,8 +176,6 @@
         </div>
       </div>
     </section>
-
-    <!-- About START -->
     <div class="container mt-4" id="about">
       <section class="row p-3 d-flex align-items-center">
         <div class="col-12 col-md-8">
@@ -201,7 +188,6 @@
           <img class="brain" src="{{ url_for('static', filename='images/Untitled-3.png') }}" alt="" />
         </div>
       </section>
-
       <section class="row p-3 d-flex align-items-center">
         <div class="col-md-4">
           <img src="{{ url_for('static', filename='images/Untitled-21.png') }}" alt="" class="d-none d-lg-block brain" />
@@ -214,9 +200,6 @@
         </div>
       </section>
     </div>
-    <!-- About END -->
-
-    <!-- Footer START -->
     <footer class="container-fluid">
       <div class="row text-white d-flex justify-content-around footer">
         <div class="col-md-4 w-auto p-3 pt-5">
@@ -234,21 +217,19 @@
             </li>
           </ul>
         </div>
-
         <div class="col-md-4 w-auto mr-5 p-3 pt-5">
           <h4 class="align-items-center d-flex">
-            <i class="fa-sharp fa-solid fa-list-check fa-lg me-1 pe-2"></i>
-            آزمون‌ها
+            <i class="fa-sharp-duotone fa-solid fa-link me-1 pe-1" style="font-size: 25px"></i>
+            ازمون ها
           </h4>
           <ul class="list-unstyled">
             <li class="mt-3 p-2"><a href="{{ url_for('take_akhenbach') }}" class="text-white">شروع آزمون آخنباخ</a></li>
             <li class="mt-3 p-2"><a href="{{ url_for('take_cattell') }}" class="text-white">شروع آزمون کتل</a></li>
           </ul>
         </div>
-
         <div class="col-md4 pt-5 w-auto" id="contact">
           <h4 class="align-items-center d-flex">
-            <i class="lni lni-popup fa-lg me-1 pe-2"></i>
+            <i class="fa-sharp-duotone fa-solid fa-link me-1 pe-1" style="font-size: 25px;"></i>
             ارتباط با ما
           </h4>
           <p class="p-2 mt-4">
@@ -263,13 +244,10 @@
             <i class="fab fa-instagram fa-2xl" aria-hidden="true"></i>
             <i class="fab fa-telegram fa-2xl" aria-hidden="true"></i>
             <i class="fab fa-whatsapp fa-2xl" aria-hidden="true"></i>
-            <br /><br /><br /><br /><br /><br />
           </div>
         </div>
       </div>
     </footer>
-
-    <!-- Modal -->
     <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content sss">
@@ -282,21 +260,8 @@
                 <img src="{{ url_for('static', filename='src/brain-logo-085FB58CDA-seeklogo.com.png') }}" class="text-center" style="width: 20%" />
               </div>
             </div>
-            <!-- Flash messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-  <div class="container mt-3">
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }}">{{ message }}</div>
-    {% endfor %}
-  </div>
-{% endif %}
-{% endwith %}
-
             <div class="row">
               <div class="col-12 col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 inputs">
-
-                
                 <form action="{{ url_for('signup') }}" method="POST" class="signin hidden">
                   <div class="row">
                     <div class="col-4 offset-4">
@@ -311,8 +276,6 @@
                   <button type="submit" class="btn w-100 text-white mt-2 modal-button">
                     ثبت نام
                   </button>
-                  
-                  <br /><br />
                   <div class="row">
                     <div class="col text-center">
                       <a onclick="GoToLogin()" class="modal-link">حساب کاربری دارید؟ ورود کنید</a>
@@ -327,14 +290,11 @@
                       </h1>
                     </div>
                   </div>
-
                   <input type="text" class="form-control mt-2 inputPlaceHolder" placeholder="نام کاربری" name="username" id="loginUsername" required/>
                   <input type="text" class="form-control mt-2 inputPlaceHolder" placeholder="رمز عبور" name="password" id="loginPassword" required/>
-
                   <button type="submit" class="btn w-100 text-white mt-5 modal-button">
                     ورود
                   </button>
-                  <br /><br />
                   <div class="row">
                     <div class="col text-center">
                       <a onclick="GoToSignin()" class="modal-link">حساب کاربری ندارید؟ ثبت نام کنید</a>
@@ -347,10 +307,9 @@
         </div>
       </div>
     </div>
-
-    <!-- Footer END -->
-    <!-- Optional JavaScript -->
-    <!--Popper.js, then Bootstrap JS -->
+    <button onclick="topFunction()" id="goToTopBtn" title="Go to Top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
     <script>
       window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -363,7 +322,194 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='src/js/bootstrap.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <!-- js -->
+    <script>
+      function showLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.style.opacity = '1'; 
+        overlay.style.visibility = 'visible';
+      }
+    
+      function hideLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.classList.add('fade-out');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 500);
+      }
+    
+      function setLTRLayout() {
+        document.body.style.direction = 'ltr'; 
+        document.body.style.textAlign = 'left';
+      }
+    
+      async function translatePage(language) {
+        const elements = document.querySelectorAll("h1,title, h2, h3, h4, p, button, a, span, input, textarea");
+        showLoadingOverlay();
+
+        for (let element of elements) {
+          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            continue;
+          }
+
+          let childNodes = Array.from(element.childNodes);
+
+          for (let child of childNodes) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              let text = child.textContent.trim();
+
+              if (text) {
+                const cachedTranslation = localStorage.getItem(`${language}-${text}`);
+
+                if (cachedTranslation) {
+                  child.textContent = cachedTranslation;
+                } else {
+                  try {
+                    const response = await fetch("/translate", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        text: text,
+                        target_language: language,
+                      }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                      child.textContent = result.translated_text;
+                      localStorage.setItem(`${language}-${text}`, result.translated_text);
+                    }
+                  } catch (error) {
+                    console.error("Error translating text:", error);
+                  }
+                }
+              }
+            }
+          }
+
+          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            const placeholderText = element.placeholder;
+
+            if (placeholderText) {
+              const cachedPlaceholderTranslation = localStorage.getItem(`${language}-${placeholderText}`);
+
+              if (cachedPlaceholderTranslation) {
+                element.placeholder = cachedPlaceholderTranslation;
+              } else {
+                try {
+                  const response = await fetch("/translate", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      text: placeholderText,
+                      target_language: language,
+                    }),
+                  });
+
+                  const result = await response.json();
+
+                  if (response.ok) {
+                    element.placeholder = result.translated_text;
+                    localStorage.setItem(`${language}-${placeholderText}`, result.translated_text);
+                  }
+                } catch (error) {
+                  console.error("Error translating placeholder:", error);
+                }
+              }
+            }
+          }
+        }
+
+        setLTRLayout(); 
+        hideLoadingOverlay(); 
+      }
+
+      function checkLanguageInSlug() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('lang')) {
+          const language = urlParams.get('lang');
+          translatePage(language);
+        } else {
+          hideLoadingOverlay();
+        }
+      }
+    
+      window.onload = checkLanguageInSlug;
+
+      let goToTopBtn = document.getElementById("goToTopBtn");
+
+      window.onscroll = function() {
+        scrollFunction();
+      };
+
+      function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          goToTopBtn.style.display = "block";
+        } else {
+          goToTopBtn.style.display = "none";
+        }
+      }
+
+      function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+    </script>
+    <style>
+      #goToTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        border: none;
+        outline: none;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      #goToTopBtn:hover {
+        background-color: #555;
+      }
+
+      #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+
+      #loading-spinner {
+        position: absolute;
+      }
+
+      .fade-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+    <div id="loading-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 9999;">
+      <div id="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
     <script src="{{ url_for('static', filename='js/file.js') }}"></script>
   </body>
 </html>

@@ -11,7 +11,10 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@latest/dist/css/persian-datepicker.min.css">
+    <script src="https://unpkg.com/persian-date@latest/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@latest/dist/js/persian-datepicker.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -31,9 +34,7 @@
       @font-face {
         font-family: "Anjomanweb VF";
         src: url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff-variations"),
-          /* will be the standard and works in Safari now */
-            url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
-        /* for the other supporting browsers */
+          url("{{ url_for('static', filename='src/AnjomanwebGX.woff') }}") format("woff");
         font-display: fallback;
       }
 
@@ -65,7 +66,7 @@
             </p>
             <p>
               پرسشنامه سیاهه رفتاری کودک (CBCL) آزمونی استاندارد و بین المللی
-              برای ارزیابی مشکلات رفتاری کودکان و نوجوان ۶ تا ۱۸ سال است.
+              برای ارزیابی مشکلات رفتاری کودکان و نوجوان ۶ تا ۱۵ سال است.
             </p>
           </div>
         </div>
@@ -80,7 +81,7 @@
         </div>
       </div>
     </div>
-    <!-- info chart -->
+
     <div class="container">
       <div class="row">
         <div class="col">
@@ -99,7 +100,7 @@
           <div>
             <p class="opacity-50"> گروه سنی :</p>
           </div>
-          <p class="fs-4"> کودکان و نوجوان ۶ تا ۱۸ سال</p>
+          <p class="fs-4"> کودکان و نوجوان ۶ تا ۱۵ سال</p>
         </div>
       </div>
     </div>
@@ -148,17 +149,16 @@
             />
           </div>
 
-          <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
-            <label for="birthdate" class="form-label">تاریخ تولد :</label>
+        <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
+            <label for="date" class="form-label">تاریخ تولد :</label>
             <input
-              type="text"
-              class="form-control"
-              id="persianDate"
-              name="birthdate"
-              required
+                type="text"
+                class="form-control"
+                id="date"
+                name="birthdate"
+                required
             />
-          </div>
-          
+        </div>
           <div class="mb-3 col-sm-12 col-lg-3 col-md-3">
             <label for="education" class="form-label"> تحصیلات :</label>
             <select name="education" id="education" class="form-select" required>
@@ -197,5 +197,176 @@
       </button>
     </div>
   </body>
-  <script src="{{ url_for('static', filename='js/file2.js') }}"></script>
+  <script>
+    let hide = document.querySelector("#start");
+    
+    function hidebutt() {
+      hide.className = "hidden";
+    }
+    
+    $(document).ready(function() {
+      var minDate = [1387, 1, 1];
+      var maxDate = [1399, 12, 29];
+
+      $("#date").pDatepicker({
+        format: 'YYYY/MM/DD',
+        minDate: minDate,
+        maxDate: maxDate,
+      });
+    });
+  </script>
+  <script>
+    function showLoadingOverlay() {
+      const overlay = document.getElementById('loading-overlay');
+      overlay.style.opacity = '1'; 
+      overlay.style.visibility = 'visible';
+    }
+  
+    function hideLoadingOverlay() {
+      const overlay = document.getElementById('loading-overlay');
+      overlay.classList.add('fade-out');
+  
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 500);
+    }
+  
+    function setLTRLayout() {
+      document.body.style.direction = 'ltr'; 
+      document.body.style.textAlign = 'left';
+    }
+  
+    async function translatePage(language) {
+const elements = document.querySelectorAll("h1,title,option,label, h2, h3, h4, p, button, a, span, input, textarea");
+showLoadingOverlay();
+
+for (let element of elements) {
+  if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+    continue;
+  }
+
+  let childNodes = Array.from(element.childNodes);
+
+  for (let child of childNodes) {
+    if (child.nodeType === Node.TEXT_NODE) {
+      let text = child.textContent.trim();
+
+      if (text) {
+        const cachedTranslation = localStorage.getItem(`${language}-${text}`);
+
+        if (cachedTranslation) {
+          child.textContent = cachedTranslation;
+        } else {
+          try {
+            const response = await fetch("/translate", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                text: text,
+                target_language: language,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              child.textContent = result.translated_text;
+              localStorage.setItem(`${language}-${text}`, result.translated_text);
+            }
+          } catch (error) {
+            console.error("Error translating text:", error);
+          }
+        }
+      }
+    }
+  }
+
+  if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+    const placeholderText = element.placeholder;
+
+    if (placeholderText) {
+      const cachedPlaceholderTranslation = localStorage.getItem(`${language}-${placeholderText}`);
+
+      if (cachedPlaceholderTranslation) {
+        element.placeholder = cachedPlaceholderTranslation;
+      } else {
+        try {
+          const response = await fetch("/translate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              text: placeholderText,
+              target_language: language,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            element.placeholder = result.translated_text;
+            localStorage.setItem(`${language}-${placeholderText}`, result.translated_text);
+          }
+        } catch (error) {
+          console.error("Error translating placeholder:", error);
+        }
+      }
+    }
+  }
+}
+
+setLTRLayout(); 
+hideLoadingOverlay();
+}
+
+  
+    function checkLanguageInSlug() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('lang')) {
+        const language = urlParams.get('lang');
+        translatePage(language);
+      } else {
+        hideLoadingOverlay();
+      }
+    }
+  
+    window.onload = checkLanguageInSlug;
+  </script>
+  
+  <style>
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+  
+    #loading-spinner {
+      position: absolute;
+    }
+  
+    .fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
+  
+<div id="loading-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 9999;">
+<div id="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+</div>
 </html>

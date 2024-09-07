@@ -50,20 +50,162 @@
                     </p>
                 </div>
     
-                <!-- Display the result message directly -->
+                <!-- Display the result message -->
                 <div class="my-4">
-                    <p>{{ result_message | safe }}</p>  <!-- use `| safe` to allow HTML tags -->
+                    <p>{{ result_message | safe }}</p>
                 </div>
     
-            
+                <!-- Display the responsive plot -->
+                <div class="text-center">
+                  <h4>نمودار نمرات آزمون</h4>
+                  <img src="{{ plot_url }}" alt="Akhenbach Test Plot" class="img-fluid rounded">
+              </div>
             </div>
     
-            <!-- Back to User Panel Button -->
+            <!-- Back to user panel button -->
             <div class="d-grid">
                 <a href="{{ url_for('user_panel') }}" class="btn btn-secondary">بازگشت به صفحه کاربری</a>
             </div>
         </div>
     </div>
+
+    <!-- Additional Scripts -->
+    <script>
+        let hide = document.querySelector("#start");
+        
+        function hidebutt() {
+          hide.className = "hidden";
+        }
+        
+        $(document).ready(function() {
+          var minDate = [1387, 1, 1];
+          var maxDate = [1399, 12, 29];
     
+          $("#date").pDatepicker({
+            format: 'YYYY/MM/DD',
+            minDate: minDate,
+            maxDate: maxDate,
+          });
+        });
+      </script>
+      <script>
+        function showLoadingOverlay() {
+          const overlay = document.getElementById('loading-overlay');
+          overlay.style.opacity = '1'; 
+          overlay.style.visibility = 'visible';
+        }
+      
+        function hideLoadingOverlay() {
+          const overlay = document.getElementById('loading-overlay');
+          overlay.classList.add('fade-out');
+      
+          setTimeout(() => {
+            overlay.style.display = 'none';
+          }, 500);
+        }
+      
+        function setLTRLayout() {
+          document.body.style.direction = 'ltr'; 
+          document.body.style.textAlign = 'left';
+        }
+      
+        async function translatePage(language) {
+          const elements = document.querySelectorAll("h1,title, h2, h3, h4, p, button, a, span, input, textarea");
+          showLoadingOverlay();
+  
+          for (let element of elements) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+              continue;
+            }
+
+            let childNodes = Array.from(element.childNodes);
+
+            for (let child of childNodes) {
+              if (child.nodeType === Node.TEXT_NODE) {
+                let text = child.textContent.trim();
+
+                if (text) {
+                  const cachedTranslation = localStorage.getItem(`${language}-${text}`);
+
+                  if (cachedTranslation) {
+                    child.textContent = cachedTranslation;
+                  } else {
+                    try {
+                      const response = await fetch("/translate", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          text: text,
+                          target_language: language,
+                        }),
+                      });
+
+                      const result = await response.json();
+
+                      if (response.ok) {
+                        child.textContent = result.translated_text;
+                        localStorage.setItem(`${language}-${text}`, result.translated_text);
+                      }
+                    } catch (error) {
+                      console.error("Error translating text:", error);
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          setLTRLayout(); 
+          hideLoadingOverlay();
+        }
+  
+        function checkLanguageInSlug() {
+          const urlParams = new URLSearchParams(window.location.search);
+          if (urlParams.has('lang')) {
+            const language = urlParams.get('lang');
+            translatePage(language);
+          } else {
+            hideLoadingOverlay();
+          }
+        }
+      
+        window.onload = checkLanguageInSlug;
+      </script>
+      
+      <style>
+        #loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: white;
+          z-index: 9999;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          opacity: 1;
+          transition: opacity 0.5s ease;
+        }
+      
+        #loading-spinner {
+          position: absolute;
+        }
+      
+        .fade-out {
+          opacity: 0;
+          visibility: hidden;
+        }
+      </style>
+  
+  <div id="loading-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 9999;">
+    <div id="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

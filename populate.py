@@ -148,7 +148,7 @@ def populate_akhenbach_questions():
 
 from app import db, CattellQuestion
 
-questions = [
+questions_cattell = [
     # Factor A (Warmth) - 10 Questions
     {"category": "A - گرمی", "question_text": "آیا احساس می‌کنید به دیگران کمک کردن برایتان لذت‌بخش است؟"},
     {"category": "A - گرمی", "question_text": "آیا به راحتی با دیگران دوست می‌شوید؟"},
@@ -367,7 +367,7 @@ questions = [
 ]
 
 def populate_ketel_questions():
-    for question in questions:
+    for question in questions_cattell:
         q = CattellQuestion(
             category=question["category"],
             question_text=question["question_text"],
@@ -402,3 +402,41 @@ if __name__ == "__main__":
 
 
 
+from app import db, CattellQuestion
+
+# Mapping of existing categories to the new format
+category_mapping = {
+    "A - گرمی": "A",
+    "B - استدلال": "B",
+    "C - پایداری هیجانی": "C",
+    "E - سلطه‌گری": "E",
+    "F - سرزندگی": "F",
+    "G - وظیفه‌شناسی": "G",
+    "H - جسارت اجتماعی": "H",
+    "I - حساسیت": "I",
+    "L - شکاکیت": "L",
+    "M - خیالبافی": "M",
+    "N - حفظ حریم شخصی": "N",
+    "O - اضطراب": "O",
+    "Q1 - باز بودن نسبت به تغییر": "Q1",
+    "Q2 - اتکا به خود": "Q2",
+    "Q3 - کمال‌گرایی": "Q3",
+    "Q4 - تنش": "Q4"
+}
+
+def update_categories():
+    questions = CattellQuestion.query.all()
+    
+    for question in questions:
+        if question.category in category_mapping:
+            # Update the category to the new format
+            question.category = category_mapping[question.category]
+            db.session.add(question)
+    
+    db.session.commit()
+    print("Categories updated successfully!")
+
+if __name__ == "__main__":
+    from app import app
+    with app.app_context():
+        update_categories()

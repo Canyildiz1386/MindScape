@@ -33,7 +33,6 @@
             </li>
 
             <li>
-                <!-- New button to open modal -->
                 <a href="#" data-bs-toggle="modal" data-bs-target="#userInfoModal"><i class="fa-solid fa-edit"></i><p class="d-inline m-2">ویرایش اطلاعات</p></a>
             </li>
             <li><a href="{{ url_for('logout') }}"> <i class="fa-solid fa-arrow-right-from-bracket"></i><p class="d-inline m-2">خروج از حساب</p> </a></li>
@@ -43,18 +42,27 @@
     <div class="wrapper">
         <div class="container">
             <h3>پنل کاربری</h3>
+            <br>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="container mt-3">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% endwith %}
             <div class="number-of-quizes-box w-100 rounded-3">
                 <div class="number-of-quizes-content">
                     <p>تعداد آزمون‌های انجام‌شده:</p>
                     <div class="number-of-quizes">
-                        <span>{{ exam_count }}</span> <!-- Show the number of exams taken -->
+                        <span>{{ exam_count }}</span>
                     </div>
                 </div>
             </div>
 
             <div class="container">
                 <div class="row">
-                    <!-- Loop through exam results and display them -->
                     {% for result in exam_results %}
                     <div class="col-12 col-md-6 col-lg-4 gy-3">
                         <div class="card">
@@ -72,7 +80,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col text-center">
-                                        <!-- Button to trigger modal -->
                                         <button type="button" class="btn w-75 quiz-btn" data-bs-toggle="modal" data-bs-target="#resultModal{{ loop.index }}">
                                             مشاهده نتایج
                                         </button>
@@ -83,7 +90,6 @@
                         <br><br>
                     </div>
 
-                    <!-- Modal for each result -->
                     <div class="modal fade" id="resultModal{{ loop.index }}" tabindex="-1" aria-labelledby="resultModalLabel{{ loop.index }}" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -107,7 +113,6 @@
         </div>
     </div>
 
-    <!-- Modal for editing user info -->
     <div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -146,6 +151,158 @@
             </div>
         </div>
     </div>
+    <script>
+      function showLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.style.opacity = '1'; 
+        overlay.style.visibility = 'visible';
+      }
+    
+      function hideLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.classList.add('fade-out');
+    
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 500); }
+    
+      function setLTRLayout() {
+        document.body.style.direction = 'ltr'; 
+        document.body.style.textAlign = 'left';
+      }
+    
+      async function translatePage(language) {
+        const elements = document.querySelectorAll("h1,title, h2, h3, h4, p, button, a, span, input, textarea");
+        showLoadingOverlay();
+
+        for (let element of elements) {
+          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            continue;
+          }
+
+          let childNodes = Array.from(element.childNodes);
+
+          for (let child of childNodes) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              let text = child.textContent.trim();
+
+              if (text) {
+                const cachedTranslation = localStorage.getItem(`${language}-${text}`);
+
+                if (cachedTranslation) {
+                  child.textContent = cachedTranslation;
+                } else {
+                  try {
+                    const response = await fetch("/translate", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        text: text,
+                        target_language: language,
+                      }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                      child.textContent = result.translated_text;
+                      localStorage.setItem(`${language}-${text}`, result.translated_text);
+                    }
+                  } catch (error) {
+                    console.error("Error translating text:", error);
+                  }
+                }
+              }
+            }
+          }
+
+          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            const placeholderText = element.placeholder;
+
+            if (placeholderText) {
+              const cachedPlaceholderTranslation = localStorage.getItem(`${language}-${placeholderText}`);
+
+              if (cachedPlaceholderTranslation) {
+                element.placeholder = cachedPlaceholderTranslation;
+              } else {
+                try {
+                  const response = await fetch("/translate", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      text: placeholderText,
+                      target_language: language,
+                    }),
+                  });
+
+                  const result = await response.json();
+
+                  if (response.ok) {
+                    element.placeholder = result.translated_text;
+                    localStorage.setItem(`${language}-${placeholderText}`, result.translated_text);
+                  }
+                } catch (error) {
+                  console.error("Error translating placeholder:", error);
+                }
+              }
+            }
+          }
+        }
+
+        setLTRLayout(); 
+        hideLoadingOverlay(); 
+      }
+
+      function checkLanguageInSlug() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('lang')) {
+          const language = urlParams.get('lang');
+          translatePage(language);
+        } else {
+          hideLoadingOverlay();
+        }
+      }
+    
+      window.onload = checkLanguageInSlug;
+    </script>
+    
+    <style>
+      #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+    
+      #loading-spinner {
+        position: absolute;
+      }
+    
+      .fade-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+    
+<div id="loading-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 9999;">
+  <div id="loading-spinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
 
     <script src="{{ url_for('static', filename='src/bootstrap.min.js') }}"></script>
 </body>

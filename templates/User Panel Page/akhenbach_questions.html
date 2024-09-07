@@ -11,7 +11,6 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous"
     />
-    
     <script
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -38,15 +37,22 @@
         * {
             font-family: "Anjomanweb VF";
         }
+
+        .question-container {
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
 <div class="container py-3 rounded-4 shadow my-4">
     <div class="container">
-        <form method="POST">
-            <!-- Loop through the questions -->
+        <form method="POST" id="quizForm">
             {% for question in questions %}
-            <div class="p-3 mb-4">
+            <div class="p-3 mb-4 question-container {% if loop.index == 1 %}active{% endif %}" id="question_{{ loop.index }}">
                 <span class="fs-3">سوال <span>{{ loop.index }}</span><span class="opacity-50">/113</span></span>
                 <div class="mt-3">
                     <p class="p-2">
@@ -54,30 +60,62 @@
                     </p>
                 </div>
 
-                <!-- Answer options -->
                 <div class="my-4">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="{{ question.id }}" id="no_{{ question.id }}" value="no" required>
                         <label class="form-check-label" for="no_{{ question.id }}">خیر</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="{{ question.id }}" id="sometimes_{{ question.id }}" value="sometimes">
-                        <label class="form-check-label"  for="sometimes_{{ question.id }}">بعضی مواقع</label>
+                        <input class="form-check-input" checked type="radio" name="{{ question.id }}" id="sometimes_{{ question.id }}" value="sometimes">
+                        <label class="form-check-label" for="sometimes_{{ question.id }}">بعضی مواقع</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input"  type="radio"  name="{{ question.id }}" id="yes_{{ question.id }}" value="yes">
-                        <label class="form-check-label" for="yes_{{ question.id }}" >بلی</label>
+                        <input class="form-check-input" type="radio" name="{{ question.id }}" id="yes_{{ question.id }}" value="yes">
+                        <label class="form-check-label" for="yes_{{ question.id }}">بلی</label>
                     </div>
                 </div>
             </div>
             {% endfor %}
 
-            <!-- Submit button -->
-            <div class="d-grid">
-                <button class="btn btn-primary" type="submit">ارسال</button>
+            <div class="d-grid mt-4">
+                <button class="btn btn-primary" type="button" id="nextButton">سوال بعدی</button>
+                <button class="btn btn-success d-none" type="submit" id="submitButton">ارسال</button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let currentQuestion = 1;
+        const totalQuestions = {{ questions|length }};
+        const nextButton = document.getElementById('nextButton');
+        const submitButton = document.getElementById('submitButton');
+
+        nextButton.addEventListener('click', function() {
+            const currentQuestionElement = document.getElementById('question_' + currentQuestion);
+            const nextQuestionElement = document.getElementById('question_' + (currentQuestion + 1));
+
+            const checkedOption = currentQuestionElement.querySelector('input[type="radio"]:checked');
+            if (!checkedOption) {
+                alert('لطفاً یک گزینه را انتخاب کنید.');
+                return;
+            }
+
+            currentQuestionElement.classList.remove('active');
+
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                nextQuestionElement.classList.add('active');
+            }
+
+            if (currentQuestion === totalQuestions) {
+                nextButton.classList.add('d-none');
+                submitButton.classList.remove('d-none');
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
